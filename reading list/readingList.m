@@ -9,6 +9,10 @@
 % - consistency ranging from LOW to HIGH (TBD)
 % - all types of words
 % - total reading time to be max 5 min = 300 sec = 60 words * 5 sec for each word
+%
+% Iterated 3 times, to obtain different measures. 
+% Check 'choosing_process.mat' for the iterations and partial files.
+% The third and final one is also stored in 'reading_list.xlsx'
 
 
 %% Import lexique and lexique infra 
