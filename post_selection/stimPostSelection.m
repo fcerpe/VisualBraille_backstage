@@ -189,5 +189,5 @@ stimuli.boxPresentation.nonwords.spaceLength = getSpaceLength(stimuli.boxPresent
 % relevant now, can be added later 
 
 save('stimuli_post_selection.mat','stimuli');
-'Done'
+
 
