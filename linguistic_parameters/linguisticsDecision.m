@@ -423,7 +423,7 @@ o2R.phon.scaled_htmp = heatmap(lab_cmp,lab_cmp,o2R.phon.lev_scaled,'CellLabelCol
 
 clearvars lab_cmp labr
 
-%% 16-06: ALL WORDS INVESTIGATION
+%% Attempt: all words investigation
 
 % try getting rdms for all the words, even those where only 1 index is
 % sufficiently frequent
@@ -450,7 +450,7 @@ attempt.allWords.phon.all_htmp = heatmap(l,l,attempt.allWords.phon.lev_scaled,'C
 
 clearvars matrix_length n o l max_attempt
 
-%% OPT1 - simple levenshtein
+%% Attempt: simple levenshtein
 
 attempt.simpleLev = struct;
 for p = 1:8
@@ -462,3 +462,5 @@ l = string(o1.summary{:,1});
 attempt.simpleLev.htmp = heatmap(l,l,attempt.simpleLev.lev_mat,'CellLabelColor','none','Colormap',parula,'Units','pixels','Position',[60 60 650 650]);
 
 clearvars b p l 
+
+
