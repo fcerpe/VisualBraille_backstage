@@ -186,8 +186,11 @@ for k = 1:size(scramble.words,1) % for each word to scramble
 %     Screen('Flip', window);
 end
 
+clearvars allDots baseRect black centeredRect d dotCenter dotPositionMatrix drawableX drawableY ...
+          k i l minDist r ref_word screenNumber screens this_w this_x this_y window windowRect xCenter yCenter
+
 %% Save
-save('scrambled_words_sota.mat','scramble');
+save('scrambled_words_sota.mat');
 
 
 
