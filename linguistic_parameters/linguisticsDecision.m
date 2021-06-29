@@ -463,4 +463,19 @@ attempt.simpleLev.htmp = heatmap(l,l,attempt.simpleLev.lev_mat,'CellLabelColor',
 
 clearvars b p l 
 
+%% Attempt: simple levenshtein on all words
+
+attempt.slaw = struct; % Simple Lvenshtein All Words
+attempt.slaw.words = sortrows(words,'Item','ascend');
+
+matrix_length = size(attempt.allWords.words,1);
+for n = 1:matrix_length
+    for o = 1:matrix_length
+        attempt.slaw.phon.lev_all(n,o) = levPhonW(char(attempt.slaw.words{n,2}),char(attempt.slaw.words{o,2})); % phon
+    end
+end
+
+l = string(attempt.slaw.words{:,1});
+attempt.slaw.phon.all_htmp = heatmap(l,l,attempt.slaw.phon.lev_all,'CellLabelColor','none','Colormap',parula,'Units','pixels','Position',[60 60 650 650]);
+
 

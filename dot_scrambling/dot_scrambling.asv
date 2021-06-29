@@ -31,7 +31,7 @@ try
     % Routine stuff: PTB opens a windows on the screen with the max index
     screens = Screen('Screens');
     whichscreen = max(screens);
-    [scramble.box.win, scramble.box.rect] = Screen('OpenWindow', whichscreen, scramble.box.bg_color); 
+    [scramble.box.win, scramble.box.rect] = Screen('OpenWindow', whichscreen, scramble.box.bg_color, [0,0,1000,1000]); 
     
     % Important: box size changes based on font style and size, worth
     % saving them
@@ -117,7 +117,7 @@ PsychDefaultSetup(2);
 screens = Screen('Screens');
 screenNumber = max(screens);
 black = BlackIndex(screenNumber);
-[window, windowRect] = PsychImaging('OpenWindow', screenNumber, black);
+[window, windowRect] = PsychImaging('OpenWindow', screenNumber, black, [0,0,900,900]);
 [xCenter, yCenter] = RectCenter(windowRect);
 sca;
 
@@ -198,41 +198,30 @@ PsychDefaultSetup(2);
 screens = Screen('Screens');
 screenNumber = max(screens);
 black = BlackIndex(screenNumber);
-[window, windowRect] = PsychImaging('OpenWindow', screenNumber, black);
+[window, windowRect] = PsychImaging('OpenWindow', screenNumber, black, [0,0,900,900]);
 [xCenter, yCenter] = RectCenter(windowRect);
 d = scramble.box.dot.diameter;
 r = d/2;
 minDist = scramble.box.references.size{1,1}(1) - d;
-Screen('TextFont', window, scramble.box.font);
-Screen('TextSize', window, scramble.box.size); 
 
 % Get dot infos
 Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 dotColor = [1 1 1];   
-        
+    
 toPrint = [2 6 14 16];
 
 for i = 1:length(toPrint)
     
-    this = scramble.words{toPrint(i),1};
-    eval(['this_st = scramble.result.' this{1} ';']);
-    dPM = this_st.coords;
-    
-    this_br = scramble.bWords{toPrint(i)};
-    
-    % Draw word and wait for keyboard (until screenshot)
-    DrawFormattedText(window, double(this_br), 'center', 'center', dotColor);
-    Screen('Flip', window);
-    KbStrokeWait;
+    this = 
+    dPM = ;
     
     % Draw them all
-    Screen('DrawDots', window, this_st.coords, d, dotColor, this_st.center, 2);
+    Screen('DrawDots', window, dPM, d, dotColor, dotCenter, 2);
     Screen('Flip', window);
-    
-    KbStrokeWait;
 end
 
-sca;
+
+
 
 
 
