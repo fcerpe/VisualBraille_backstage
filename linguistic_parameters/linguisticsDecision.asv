@@ -484,7 +484,7 @@ attempt.slaw.phon.all_htmp = heatmap(l,l,attempt.slaw.phon.lev_all,'CellLabelCol
 % G2: vipère - lézard - désert - chenal
 
 attempt.chosen = struct;
-attempt.chosen.words = words([26 42 101 71 66 103 72 83],:);
+attempt.chosen.words = words([26 42 68 71 66 103 72 83],:);
 attempt.chosen.words.Sem = categorical({'place','place','place','place','animal','animal','animal','animal'}');
 attempt.chosen.words = attempt.chosen.words(:,[1 3 8 9 37]);
 
@@ -510,88 +510,9 @@ attempt.chosen.m_tri = attempt.chosen.m_mat(triu(true(size(attempt.chosen.m_mat)
 attempt.chosen.b_tri = attempt.chosen.b_mat(triu(true(size(attempt.chosen.b_mat)),1));
 attempt.chosen.p_tri = attempt.chosen.p_mat(triu(true(size(attempt.chosen.p_mat)),1));
 attempt.chosen.s_tri = attempt.chosen.s_mat(triu(true(size(attempt.chosen.s_mat)),1));
-attempt.chosen.o_tri = attempt.chosen.o_mat(triu(true(size(attempt.chosen.o_mat)),1));
 
-attempt.chosen.r = corrcoef([attempt.chosen.m_tri, attempt.chosen.b_tri,...
-                             attempt.chosen.s_tri, attempt.chosen.o_tri, attempt.chosen.p_tri]);
 
-% Write correlations in a .xlsx file, just in case
-writematrix(attempt.chosen.r,'attempt_corr.xlsx');
-
-% Graphs: rdms
 l = string(attempt.chosen.words{:,1});
+attempt.chosen.all_htmp = heatmap(l,l,attempt.chosen.lev_all,'Colormap',parula,'Units','pixels','Position',[60 60 650 650]);
 
-attempt.chosen.m_htmp = heatmap(l,l,attempt.chosen.m_mat,'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);   % movies frequency
-attempt.chosen.b_htmp = heatmap(l,l,attempt.chosen.b_mat,'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);   % books frequency
-attempt.chosen.s_htmp = heatmap(l,l,double(attempt.chosen.s_mat),'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);  % semantics
-attempt.chosen.o_htmp = heatmap(l,l,double(attempt.chosen.o_mat),'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);  % semantics
-attempt.chosen.p_htmp = heatmap(l,l,attempt.chosen.p_mat,'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);
-
-% Scatter plot
-x = attempt.chosen.words{:,3}'; % frequencies
-y = double(attempt.chosen.words{:,5}'); % semantic categories
-col = [1 0.6916 0.2902; 1 0.6916 0.2902; 0.4118 0.6667 0.6000; 0.4118 0.6667 0.6000]; % colors for phonology (CPP colors)
-col = vertcat(col,col); % duplicate them
-
-% Draw scatter plot
-attempt.chosen.scatter = scatter(x([1 2 5 6]),y([1 2 5 6]),80,[1 0.6916 0.2902],'filled');
-hold on
-attempt.chosen.scatter = scatter(x([3 4 7 8]),y([3 4 7 8]),80,[0.4118 0.6667 0.6000],'filled');
-labelpoints(x,y, l); % custom code from matlab sharing tools to add labels near the points
-
-%% Attempt: chosen but simple levenshtein
-
-attempt.csl = struct;
-attempt.csl.words = words([26 42 101 71 66 103 72 83],:);
-attempt.csl.words.Sem = categorical({'place','place','place','place','animal','animal','animal','animal'}');
-attempt.csl.words = attempt.csl.words(:,[1 3 8 9 37]);
-
-matrix_length = size(attempt.csl.words,1);
-for n = 1:matrix_length
-    for o = 1:matrix_length
-        % Frequencies (movies and books)
-        attempt.csl.m_mat(n,o) = abs(attempt.csl.words{n,3} - attempt.csl.words{o,3});
-        attempt.csl.b_mat(n,o) = abs(attempt.csl.words{n,4} - attempt.csl.words{o,4});
-        
-        % Semantics
-        attempt.csl.s_mat(n,o) = attempt.csl.words{n,5} ~= attempt.csl.words{o,5};
-        
-        % Orthography
-        attempt.csl.o_mat(n,o) = levBrailleW(char(attempt.csl.words{n,1}),char(attempt.csl.words{o,1}));
-        
-        % Phonology
-        attempt.csl.p_mat(n,o) = lev(char(attempt.csl.words{n,2}),char(attempt.csl.words{o,2})); % phon
-    end
-end
-
-attempt.csl.m_tri = attempt.csl.m_mat(triu(true(size(attempt.csl.m_mat)),1));
-attempt.csl.b_tri = attempt.csl.b_mat(triu(true(size(attempt.csl.b_mat)),1));
-attempt.csl.p_tri = attempt.csl.p_mat(triu(true(size(attempt.csl.p_mat)),1));
-attempt.csl.s_tri = attempt.csl.s_mat(triu(true(size(attempt.csl.s_mat)),1));
-attempt.csl.o_tri = attempt.csl.o_mat(triu(true(size(attempt.csl.o_mat)),1));
-
-attempt.csl.r = corrcoef([attempt.csl.m_tri, attempt.csl.b_tri,...
-                             attempt.csl.s_tri, attempt.csl.o_tri, attempt.csl.p_tri]);
-
-% Write correlations in a .xlsx file, just in case
-writematrix(attempt.csl.r,'csl_corr.xlsx');
-
-% Graphs: rdms
-l = string(attempt.csl.words{:,1});
-
-attempt.csl.m_htmp = heatmap(l,l,attempt.csl.m_mat,'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);   % movies frequency
-attempt.csl.b_htmp = heatmap(l,l,attempt.csl.b_mat,'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);   % books frequency
-attempt.csl.s_htmp = heatmap(l,l,double(attempt.csl.s_mat),'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);  % semantics
-attempt.csl.o_htmp = heatmap(l,l,double(attempt.csl.o_mat),'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);  % semantics
-attempt.csl.p_htmp = heatmap(l,l,attempt.csl.p_mat,'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
-                                                         'Units','pixels','Position',[60 60 650 650]);
 
