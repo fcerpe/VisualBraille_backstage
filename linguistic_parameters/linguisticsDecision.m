@@ -1,12 +1,17 @@
 %% Look at frequencies and correlations of two possible options for MVPA dataset
 %
 % Option 1: 
-% 2x2 desgin - semnatic and phonological groups, 2 words each group.
+% 2x2 desgin - semantic and phonological groups, 2 words each group.
 % What would be the freqquencies of those words?
 %
 % Option 2:
 % 2x6 design - 2 semantic groups (living, non-living), 6 pairs of phonologically 
 % similar words, distant between groups
+%
+% Attempts:
+% 2x2 designs - groups created based solely on Levenshtein distance
+%
+% FINAL DECISION: OPTION 1 
 
 load('stimuli_initial_selection.mat');
 clearvars animals animals_AND mvpa_6L_lex places places_AND loc_lex infra_GrPh
@@ -484,7 +489,8 @@ attempt.slaw.phon.all_htmp = heatmap(l,l,attempt.slaw.phon.lev_all,'CellLabelCol
 % G2: vipère - lézard - désert - chenal
 
 attempt.chosen = struct;
-attempt.chosen.words = words([26 42 101 71 66 103 72 83],:);
+% WORDS: chenal - désert - vallon - moulin - lézard - vipère - mouton - pigeon
+attempt.chosen.words = words([26 42 101 71 66 103 72 78],:);
 attempt.chosen.words.Sem = categorical({'place','place','place','place','animal','animal','animal','animal'}');
 attempt.chosen.words = attempt.chosen.words(:,[1 3 8 9 37]);
 
@@ -529,11 +535,11 @@ attempt.chosen.s_htmp = heatmap(l,l,double(attempt.chosen.s_mat),'CellLabelColor
                                                          'Units','pixels','Position',[60 60 650 650]);  % semantics
 attempt.chosen.o_htmp = heatmap(l,l,double(attempt.chosen.o_mat),'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
                                                          'Units','pixels','Position',[60 60 650 650]);  % semantics
-attempt.chosen.p_htmp = heatmap(l,l,attempt.chosen.p_mat,'CellLabelColor','none','Colormap',parula,'GridVisible','off',...
+attempt.chosen.p_htmp = heatmap(l,l,attempt.chosen.p_mat,'Colormap',parula,'GridVisible','off',...
                                                          'Units','pixels','Position',[60 60 650 650]);
 
 % Scatter plot
-x = attempt.chosen.words{:,3}'; % frequencies
+x = attempt.chosen.words{:,4}'; % frequencies
 y = double(attempt.chosen.words{:,5}'); % semantic categories
 col = [1 0.6916 0.2902; 1 0.6916 0.2902; 0.4118 0.6667 0.6000; 0.4118 0.6667 0.6000]; % colors for phonology (CPP colors)
 col = vertcat(col,col); % duplicate them
