@@ -39,17 +39,18 @@ stimuli.braille.summary = table(string(stimuli.french.letters'),string(stimuli.b
 % match letters into one table        
 stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.braille.letters'),'variableNames',{'fr','br'}); 
 
+% IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 % create braille words 
-load('stimuli_initial_selection.mat','words');
+load('localizer_stimuli.mat');
 
-stimuli.french.words = words{:,1}; 
+stimuli.french.words = localizer_words{:,1}; 
 stimuli.braille.words = brailify(stimuli.french.words);
 
 % Add reference to use later in box calculations
 stimuli.braille.reference_word = char([10303 10303 10303 10303 10303 10303]);
 stimuli.braille.reference_letter = char(10303);
 
-%% 2. CREATE NON-WORDS
+%% 2. CREATE NON-WORDS - obsolete
 % Call function to create non-words based on words. Details of mapping are
 % explicitated in the fucntion called.
 % Non words for braille are made form the braille, not french due to
@@ -66,22 +67,22 @@ stimuli.braille.nonwords = makeNonWords(stimuli.french.words,'b');
  
 % Open Screen to calculate boxes
 Screen('Preference', 'SkipSyncTests', 1);
-stimuli.boxPresentation.bg_color = [127 127 127];
+stimuli.boxPresentation.bg_color = [0 0 0];
 
 try
     % Routine stuff
     % PTB opens a windows on the screen with the max index
     screens = Screen('Screens');
     whichscreen = max(screens);
-    [win, rect] = Screen('OpenWindow', whichscreen, stimuli.boxPresentation.bg_color, [0,0,300,300]); 
+    [stimuli.boxPresentation.win, stimuli.boxPresentation.rect] = Screen('OpenWindow', whichscreen, stimuli.boxPresentation.bg_color); 
     
     % Important: box size changes based on font style and size, worth
     % saving them
     % Check if other fonts allow braille 
     stimuli.boxPresentation.font = 'Segoe UI Symbol'; 
     stimuli.boxPresentation.size = 50;
-    Screen('TextFont', win, stimuli.boxPresentation.font);
-    Screen('TextSize', win, stimuli.boxPresentation.size); 
+    Screen('TextFont', stimuli.boxPresentation.win, stimuli.boxPresentation.font);
+    Screen('TextSize', stimuli.boxPresentation.win, stimuli.boxPresentation.size); 
 
     % Information about letters and words for boxes is sotred into tables 
     stimuli.boxPresentation.letters = table(string(stimuli.french.letters'),'VariableNames',{'char'});
@@ -89,18 +90,18 @@ try
     stimuli.boxPresentation.nonwords = table(string(stimuli.french.nonwords),'VariableNames',{'string'});
     
     % Get the screen resolution in pixel
-    win_x = rect(3);  win_y = rect(4);
+    win_x = stimuli.boxPresentation.rect(3);  win_y = stimuli.boxPresentation.rect(4);
     
     % For each letter in the french alphabet
     for t = 1:length(stimuli.french.letters)
         
         % Get positions of letter
         yPositionIsBaseline = 0; % non negative data without
-        temp_bounds = TextBounds(win, stimuli.french.letters{t}, yPositionIsBaseline);
+        temp_bounds = TextBounds(stimuli.boxPresentation.win, stimuli.french.letters{t}, yPositionIsBaseline);
         stimuli.boxPresentation.letters.coord{t} = temp_bounds; % coordinates for each letter
         stimuli.boxPresentation.letters.length(t) = temp_bounds(3) - temp_bounds(1);
         stimuli.boxPresentation.letters.height(t) = temp_bounds(4) - temp_bounds(2); % necessary for true center
-        Screen('Flip', win);
+        Screen('Flip', stimuli.boxPresentation.win);
         
     end
     
@@ -108,10 +109,10 @@ try
     for y = 1:length(stimuli.french.words)
         
         % Get positions of entire word
-        temp_bounds = TextBounds(win, stimuli.french.words{y}, yPositionIsBaseline);
+        temp_bounds = TextBounds(stimuli.boxPresentation.win, stimuli.french.words{y}, yPositionIsBaseline);
         stimuli.boxPresentation.words.coord{y} = temp_bounds; % coordinates for each letter
         stimuli.boxPresentation.words.length(y) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
-        Screen('Flip', win);
+        Screen('Flip', stimuli.boxPresentation.win);
         
         % Since we're looping, also get the length of single letter words
         % (a.k.a. letters without spaces)
@@ -119,10 +120,10 @@ try
         
         % Perform the same for non-words
         % entire non-word
-        temp_bounds = TextBounds(win, stimuli.french.nonwords{y}, yPositionIsBaseline);
+        temp_bounds = TextBounds(stimuli.boxPresentation.win, stimuli.french.nonwords{y}, yPositionIsBaseline);
         stimuli.boxPresentation.nonwords.coord{y} = temp_bounds; % coordinates for each letter
         stimuli.boxPresentation.nonwords.length(y) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
-        Screen('Flip', win);
+        Screen('Flip', stimuli.boxPresentation.win);
         
         % Single letters summed
         stimuli.boxPresentation.nonwords.letterLength(y) = getWordLength(stimuli.french.nonwords{y});
@@ -131,17 +132,17 @@ try
     
     % Get length of braille references. REMEMBER TO CAST AS DOUBLE
     % word 
-    temp_bounds = TextBounds(win, double(stimuli.braille.reference_word), yPositionIsBaseline);
+    temp_bounds = TextBounds(stimuli.boxPresentation.win, double(stimuli.braille.reference_word), yPositionIsBaseline);
     stimuli.boxPresentation.braille.word.string = stimuli.braille.reference_word; 
     stimuli.boxPresentation.braille.word.coord = temp_bounds; 
     stimuli.boxPresentation.braille.word.length = temp_bounds(3) - temp_bounds(1);
-    Screen('Flip', win);
+    Screen('Flip', stimuli.boxPresentation.win);
     
     % single letter
-    temp_bounds = TextBounds(win, double(stimuli.braille.reference_letter), yPositionIsBaseline);
+    temp_bounds = TextBounds(stimuli.boxPresentation.win, double(stimuli.braille.reference_letter), yPositionIsBaseline);
     stimuli.boxPresentation.braille.letterCoord = temp_bounds;
     stimuli.boxPresentation.braille.letterLength = temp_bounds(3) - temp_bounds(1);
-    Screen('Flip', win);
+    Screen('Flip', stimuli.boxPresentation.win);
     
     % Maximum is necessary, determines FOV ? (TBD)
     stimuli.boxPresentation.max_words = max(stimuli.boxPresentation.words.length);
@@ -155,8 +156,8 @@ try
                                                stimuli.boxPresentation.braille.word.length]);
     
     % Final screen - don't know if it's still needed. Too afraid to delete
-    Screen('FillRect', win, stimuli.boxPresentation.bg_color);
-    Screen('Flip', win);
+    Screen('FillRect', stimuli.boxPresentation.win, stimuli.boxPresentation.bg_color);
+    Screen('Flip', stimuli.boxPresentation.win);
     WaitSecs(1);
     
     % Closing up
@@ -175,7 +176,8 @@ catch
     
 end
 
-save('stimuli_post_selection.mat','stimuli');
+clearvars ans nDots screens t temp_bounds unicode whichscreen win_x win_y y yPositionIsBaseline 
+save('localizer_stimuli.mat');
 
 %% GET GRAPHICAL DETAILS Pt. 2
 % Call to get the spaces for each word and to set up the presentation box

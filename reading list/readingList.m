@@ -161,15 +161,17 @@ list_3rd_selection = list;
 
 %% Randomize order of words
 % Permutation: balanced. 15 words in left columns are 3 words for each letter group
-ordered = list_3rd_selection;
-or_left = ordered([1:3,7:9,13:15,19:21,25:27],:);
-or_right = ordered([4:6,10:12,16:18,22:24,28:30],:);
+ordered = rl_order;
+or_left = ordered([1 2 7 8 13 14 19 20 25 26 ],:);
+or_cen = ordered([3 4 9 10 15 16 21 22 27 28],:);
+or_right = ordered([5 6 11 12 17 18 23 24 29 30],:);
 
 shuff_left = or_left(randperm(size(or_left,1)),:);
+shuff_cen =  or_cen(randperm(size(or_cen,1)),:);
 shuff_right = or_right(randperm(size(or_right,1)),:);
 
 % Finally, appropriate name
-reading_list = vertcat(shuff_left, shuff_right);
+reading_list = vertcat(shuff_left, shuff_cen, shuff_right);
 
 %% Write it in a table
 writetable(reading_list,'reading_list3.xlsx');
@@ -181,10 +183,60 @@ clearvars i infra_sel infra_merge infraGrPh j k lexCat lexFreq lexLem lexLength 
 save('reading_list_3.mat');
 
 
+%% Show words with larger space between to screenshot for pilot 
 
+% Open Screen to calculate boxes
+Screen('Preference', 'SkipSyncTests', 1);
+bg_color = [0 0 0];
 
-
-
-
-
+try
+    % Routine stuff
+    % PTB opens a windows on the screen with the max index
+    screens = Screen('Screens');
+    whichscreen = max(screens);
+    [win, rect] = Screen('OpenWindow', whichscreen, bg_color); 
+ 
+    font = 'Segoe UI Symbol'; 
+    size = 50;
+    Screen('TextFont', win, font);
+    Screen('TextSize', win, size); 
+    win_x = rect(3);  win_y = rect(4);
+    
+    box_x = scramble.box.references{8,3}{1,1}(1);
+    box_y = scramble.box.references{8,3}{1,1}(2);
+    
+    coordsArray = zeros(30,2);
+    coordsArray(1:10,1) = win_x/2 - 680;
+    coordsArray(11:20,1)= win_x/2 - 150;
+    coordsArray(21:30,1)= win_x/2 + 380;
+    
+    coordsArray([1 11 21],2) = win_y/2 - 360;
+    coordsArray([2 12 22],2) = win_y/2 - 280;
+    coordsArray([3 13 23],2) = win_y/2 - 200;
+    coordsArray([4 14 24],2) = win_y/2 - 120;
+    coordsArray([5 15 25],2) = win_y/2 - 40;
+    coordsArray([6 16 26],2) = win_y/2 + 40;
+    coordsArray([7 17 27],2) = win_y/2 + 120;
+    coordsArray([8 18 28],2) = win_y/2 + 200;
+    coordsArray([9 19 29],2) = win_y/2 + 280;
+    coordsArray([10 20 30],2)= win_y/2 + 360;
+    
+    % Show words 
+    for i = 1:30
+        %Screen('DrawText', win, double(char(braille(i))), coordsArray(i,1), coordsArray(i,2), [255 255 255]);
+        DrawFormattedText(win, double(char(braille(i))), coordsArray(i,1), coordsArray(i,2), [255 255 255]);
+    end
+    Screen('Flip', win);  
+    WaitSecs(10); 
+        
+    Screen('CloseAll');
+    ShowCursor
+catch
+    Priority(0);
+    if exist('origLUT', 'var')
+        Screen('LoadNormalizedGammaTable', screenNumber, origLUT);
+    end
+    Screen('CloseAll');
+    psychrethrow(psychlasterror); 
+end
 
