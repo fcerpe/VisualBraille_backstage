@@ -17,12 +17,12 @@ clearvars;
 close all;
 sca;
 
+load('localizer_stimuli.mat');
+
 % Rudimental screen
 Screen('Preference', 'SkipSyncTests', 1);
 bg_color = [127 127 127]; % background color
 
-load('stimuli_post_selection.mat','stimuli');
-load('temp-1703.mat','cfg');
 try
     % PTB opens a windows on the screen with the max index
     screens = Screen('Screens');
@@ -42,7 +42,7 @@ try
     maxLength = stimuli.boxPresentation.max_absolute; 
     
     % Presentation
-    for t=1:3
+    for t=9:11
         
         % Get positions in pixels for each letter, based on current word
         % Remember, 192 px (at size 50) is length of braille word. to
@@ -86,7 +86,7 @@ try
         DrawFormattedText(w, currWord_char(4), xLet4, yLet4);
         DrawFormattedText(w, currWord_char(5), xLet5, yLet5);
         DrawFormattedText(w, currWord_char(6), xLet6, yLet6);
-        drawFixation(cfg);
+        
 %         DrawFormattedText(w, char(currWord.string), 'center', 'center');
 %         DrawFormattedText(w, double(stimuli.boxPresentation.braille.word.string), w_x/2-(maxLength/2)-8, (w_y/2+60));
         Screen('Flip', w);
