@@ -7,7 +7,7 @@ tapis
 cintre
 pièce
 crayon
-clavier
+louche
 brosse
 casque
 guitare

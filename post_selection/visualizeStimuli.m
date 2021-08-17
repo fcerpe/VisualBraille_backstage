@@ -1,17 +1,21 @@
 %% Visualize stimuli
 % Show on the screen french and braille words to be screenshotted
 % To add:
-% - show words according to box view
-% - screenshot
+% - screenshot -> DOES IT BUT ALL BLACK, NO SIGN OF LETTERS
+%
 % - possible to resize them autmoatically (maybe with gimp?)
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
+clear;
 load('localizer_stimuli.mat');
 
 %% Print the words
 % One at the time, 5 seconds each to screenshot manually
 
-this = stimuli.boxPresentation;
+this = stimuli.box;
+images = struct;
+
+imgArray = zeros(400,400,20);
 
 % Open Screen and add background
 Screen('Preference', 'SkipSyncTests', 1);
@@ -27,62 +31,47 @@ try
     Screen('TextFont', this.win, this.font);
     Screen('TextSize', this.win, this.size);
     
-    % Get x and y dimensions
-    w_x = this.rect(3);  w_y = this.rect(4);
-    
     HideCursor;
     
-    % Get max absolute
-    maxLength = this.max_absolute;
-    
     % Show french words first
-%     for i=1:size(this.words,1)
+    for i=1:size(this.words,1)
         
-        % Get word infos and the corresponding char array
+        % Get word infos and parameters: char array to print and
+        % coordinates on where to do so
         thisWord = this.words(i,:);
-        thisChar = char(this.words{i,1});
+        [thisChar, thisCoord] = makeCoordinates(thisWord, this);
         
-        % Get the single letters and their infos 
-        for l = 1:length(thisChar)
-            eval(['letter' num2str(l) ' = this.letters(this.letters.char == thisChar(' num2str(l) '),:);']);
-        end
-        
-        % X and Y positions for every letter
-        % First is manual, others are looped
-        xL1 = w_x/2 - (maxLength/2) - letter1.coord{1}(1);
-        yL1 = w_y/2 - letter1.coord{1}(2) + 26; % 26 is height of a letter without 'extensions' at font 50
-        
-        % Each letter from 2 to 8, if the word is that long
-        for c = 2:length(thisChar)
-            eval(['prevX = xL' num2str(c-1) ';']);
-            eval(['prevL = letter' num2str(c-1) ';']);
-            eval(['currL = letter' num2str(c) ';']); 
-            currX = prevX + prevL.length + thisWord.spaceLength;
-            currY = w_y/2 - currL.coord{1}(2) + 26;
-            eval(['xL' num2str(c) ' = currX;']);
-            eval(['yL' num2str(c) ' = currY;']);
+        % Screenshot stuff
+        % Name is images.scr_word
+        wordFilename = thisChar;
+        if i == 8
+            wordFilename = 'piece';
         end
                 
-        %Blank screen
+        % Square of 400*400px around the center
+        halfX = this.w_x/2; halfY = this.w_y/2;
+        position = [halfX-200 halfY-200 400 400];
+               
+        % Blank screen
         Screen('FillRect', this.win, this.bg_color);
         
         % Make letters start at the same pixel (just with a and b at the moment)
         for d = 1:length(thisChar)
-            eval(['DrawFormattedText(this.win, thisChar(' num2str(d) '), xL' num2str(d) ', yL' num2str(d) ');']);
+            DrawFormattedText(this.win, thisChar(d), thisCoord(d,1), thisCoord(d,2), this.txt_color);
         end
         Screen('Flip', this.win);
-        WaitSecs(5);
+        eval(['images.scr_' wordFilename ' = screencapture(0, position);']); 
+        WaitSecs(0.5);
                
-%     end
+    end
     
     % Buffer screen 
     Screen('FillRect', this.win, this.bg_color);
     Screen('Flip', this.win);
     WaitSecs(2);
     
-    % Show Braille words
+    % Show Braille words - later
        
-    
     % Final screen - don't know if it's still needed. Too afraid to delete
     Screen('FillRect', this.win, this.bg_color);
     Screen('Flip', this.win);
@@ -103,4 +92,9 @@ catch
     psychrethrow(psychlasterror);
     
 end
+
+%% FINAL CLEANUP AND SAVE
+
+save('localizer_stimuli.mat','localizer_words','stimuli','images');
+
 
