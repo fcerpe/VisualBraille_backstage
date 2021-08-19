@@ -1,12 +1,10 @@
-%% STIMULI POST-SELECTION OPERATIONS
+%% STIMULI POST-SELECTION OPERATIONS: CREATE THE SET STARTING FROM .TXT FILE
 %
-% From simtuli initial selection, get details for  in pilot
-% experiment.
-% Log:
-% 06/03/2021 - at the moment, does it for the whole initial selection, later
-%              it will be skimmed based on actual selection
+% Part 1 of X
+% From simtuli initial selection, get the words detials 
+% (then: scrambleDots, visualizeStimuli)
 
-clear;
+clear
 
 %% 1. FRENCH - BRAILLE MAPPING
 % Create table containing intégral braille conversion of french characters.
@@ -41,7 +39,8 @@ stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.brail
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 % create braille words
-load('localizer_stimuli.mat');
+% load('localizer_stimuli.mat');
+localizer_words = importWords('localizer_words_1st_attempt.txt');
 
 stimuli.french.words = localizer_words{:,1};
 stimuli.braille.words = brailify(stimuli.french.words);
@@ -49,14 +48,10 @@ stimuli.braille.words = brailify(stimuli.french.words);
 % Add reference to use later in box calculations
 stimuli.braille.reference_letter = char(10303);
 
-%% 2. CREATE NON-WORDS - obsolete
-% Call function to create non-words based on words. Details of mapping are
-% explicitated in the fucntion called.
-% Non words for braille are made form the braille, not french due to
-% similarity in characters.
-
-% stimuli.french.nonwords = makeNonWords(stimuli.french.words,'f');
-% stimuli.braille.nonwords = makeNonWords(stimuli.french.words,'b');
+%% 2. CREATE MATLAB-APPROVED NAMES FOR VARIABLES
+%
+% Remove accents if there are any. Manual
+stimuli.variableNames = 
 
 %% 3. GET GRAPHICAL DETAILS Pt. 1
 % Calculate dimensions in pixel for each letter. Open screen to compute the
@@ -178,8 +173,6 @@ catch
     
 end
 
-clearvars ans nDots screens fl fw n ref_word temp_bounds unicode whichscreen win_x win_y y yPositionIsBaseline
-save('localizer_stimuli.mat');
 
 %% GET GRAPHICAL DETAILS Pt. 2
 % Call to get the spaces for each word and to set up the  box
@@ -192,7 +185,8 @@ stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
 % IMPORTANT: many info about screen are not saved at the moment. Not
 % relevant now, can be added later
 
-save('localizer_stimuli.mat');
+save('localizer_mock_1908.mat','localizer_words','stimuli');
+clear
 
 
 

@@ -15,8 +15,6 @@ load('localizer_stimuli.mat');
 this = stimuli.box;
 images = struct;
 
-imgArray = zeros(400,400,20);
-
 % Open Screen and add background
 Screen('Preference', 'SkipSyncTests', 1);
 
@@ -60,7 +58,10 @@ try
             DrawFormattedText(this.win, thisChar(d), thisCoord(d,1), thisCoord(d,2), this.txt_color);
         end
         Screen('Flip', this.win);
-        eval(['images.scr_' wordFilename ' = screencapture(0, position);']); 
+        % Screenshot: first all the screen, then cut what we need 
+        % (PTB was not cooperating, that's why the double step)
+        temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
+        eval(['images.scr_' wordFilename ' = temp_scr(341:740, 761:1160, :)']);
         WaitSecs(0.5);
                
     end

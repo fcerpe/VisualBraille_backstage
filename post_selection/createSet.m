@@ -1,12 +1,10 @@
-%% STIMULI POST-SELECTION OPERATIONS
+%% STIMULI POST-SELECTION OPERATIONS: CREATE THE SET STARTING FROM .TXT FILE
 %
-% From simtuli initial selection, get details for  in pilot
-% experiment.
-% Log:
-% 06/03/2021 - at the moment, does it for the whole initial selection, later
-%              it will be skimmed based on actual selection
+% Part 1 of X
+% From simtuli initial selection, get the words detials 
+% (then: scrambleDots, visualizeStimuli)
 
-clear;
+clear
 
 %% 1. FRENCH - BRAILLE MAPPING
 % Create table containing intégral braille conversion of french characters.
@@ -41,7 +39,8 @@ stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.brail
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 % create braille words
-load('localizer_stimuli.mat');
+% load('localizer_stimuli.mat');
+localizer_words = importWords('localizer_words_1st_attempt.txt');
 
 stimuli.french.words = localizer_words{:,1};
 stimuli.braille.words = brailify(stimuli.french.words);
@@ -49,14 +48,13 @@ stimuli.braille.words = brailify(stimuli.french.words);
 % Add reference to use later in box calculations
 stimuli.braille.reference_letter = char(10303);
 
-%% 2. CREATE NON-WORDS - obsolete
-% Call function to create non-words based on words. Details of mapping are
-% explicitated in the fucntion called.
-% Non words for braille are made form the braille, not french due to
-% similarity in characters.
+%% 2. CREATE MATLAB-APPROVED NAMES FOR VARIABLES
+%
+% Remove accents if there are any. Manual
+stimuli.variableNames = string(stimuli.french.words);
 
-% stimuli.french.nonwords = makeNonWords(stimuli.french.words,'f');
-% stimuli.braille.nonwords = makeNonWords(stimuli.french.words,'b');
+% Pièce -> piece
+stimuli.variableNames(8) = "piece";
 
 %% 3. GET GRAPHICAL DETAILS Pt. 1
 % Calculate dimensions in pixel for each letter. Open screen to compute the
@@ -86,7 +84,8 @@ try
     % Information about letters and words for boxes is sotred into tables
     stimuli.box.letters = table(string(stimuli.french.letters'),'VariableNames',{'char'});
     stimuli.box.words = table(string(stimuli.french.words),'VariableNames',{'string'});
-    stimuli.box.nonwords = table(string(stimuli.french.nonwords),'VariableNames',{'string'});
+    stimuli.box.references = table('Size',[8 5],'VariableTypes',{'double','string','cell','double','double'},...
+                                   'VariableNames',{'nbChar','string','coord','length','height'});
     
     % Get the screen resolution in pixel
     stimuli.box.w_x = stimuli.box.rect(3);  stimuli.box.w_y = stimuli.box.rect(4);
@@ -129,40 +128,34 @@ try
     end
     
     % Get length of braille references
-    % Different words spanning lengths from 4 to 8
-    ref_word = [10303 10303 10303 10303]; % 4 letters to start
-    for n = 4:8
+    % Different words spanning lengths from 1 to 8
+    ref_word = 10303; % 1 letter to start
+    for n = 1:8
         % Get positions of entire word
-        temp_bounds = TextBounds(stimuli.box.win, ref_word, yPositionIsBaseline);
+        temp_bounds = TextBounds(stimuli.box.win, double(ref_word), yPositionIsBaseline);
         stimuli.box.references.nbChar(n) = n;
-        stimuli.box.references.string(n) = ref_word;
+        stimuli.box.references.string(n) = char(ref_word);
         stimuli.box.references.coord{n} = temp_bounds;
-        stimuli.box.references.length{n} = temp_bounds(3) - temp_bounds(1);
-        stimuli.box.references.height{n} = temp_bounds(4) - temp_bounds(2);
+        stimuli.box.references.length(n) = temp_bounds(3) - temp_bounds(1);
+        stimuli.box.references.height(n) = temp_bounds(4) - temp_bounds(2);
         Screen('Flip', stimuli.box.win);
         
         % Increase the 'counter' = adds a letter to the reference word
         ref_word = [ref_word,10303];      
     end
     
-    % single letter
-    temp_bounds = TextBounds(stimuli.box.win, double(stimuli.braille.reference_letter), yPositionIsBaseline);
-    stimuli.box.braille.letterCoord = temp_bounds;
-    stimuli.box.braille.letterLength = temp_bounds(3) - temp_bounds(1);
-    Screen('Flip', stimuli.box.win);
-    
-    % Maximum is necessary, determines FOV ? (TBD)
+    % Maximum is necessary, determines FOV
     stimuli.box.max_words = max(stimuli.box.words.length);
-    stimuli.box.max_nonwords = max(stimuli.box.nonwords.length);
+    stimuli.box.max_ref = max(stimuli.box.references.length);
+%     stimuli.box.max_nonwords = max(stimuli.box.nonwords.length);
     
-    % Absolute is longest string in pixel among words, non-words, and
+    % Absolute is longest string in pixel among words and
     % braille chars. Needed to compute spaces for each stimulus
-    % Should be equal to braille (212 px), but we never know for sure
+    % Should be equal to braille, but we never know for sure
     stimuli.box.max_absolute = max([stimuli.box.max_words, ...
-                                                stimuli.box.max_nonwords, ...
-                                                stimuli.box.braille.word.length]);
+                                                stimuli.box.max_ref]);
     
-    % Final screen - don't know if it's still needed. Too afraid to delete
+    % Final screen 
     Screen('FillRect', stimuli.box.win, stimuli.box.bg_color);
     Screen('Flip', stimuli.box.win);
     WaitSecs(1);
@@ -183,21 +176,20 @@ catch
     
 end
 
-clearvars ans nDots screens t temp_bounds unicode whichscreen win_x win_y y yPositionIsBaseline
-save('localizer_stimuli.mat');
 
 %% GET GRAPHICAL DETAILS Pt. 2
 % Call to get the spaces for each word and to set up the  box
 % Different part as it calls for some variables in stimuli
 
-stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words);
-stimuli.box.nonwords.spaceLength = getSpaceLength(stimuli.box.nonwords);
+stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
+% stimuli.box.nonwords.spaceLength = getSpaceLength(stimuli.box.nonwords);
 
 %% X. SAVE STIMULI POST SELECTION
 % IMPORTANT: many info about screen are not saved at the moment. Not
 % relevant now, can be added later
 
-save('localizer_stimuli.mat');
+save('localizer_mock_1908.mat','localizer_words','stimuli');
+clear
 
 
 
