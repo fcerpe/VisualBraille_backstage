@@ -14,7 +14,7 @@
 clear
 
 % Load the list of words to be scrambled
-load('localizer_mock_1908.mat');
+load('localizer_sota0831.mat');
 
 % Scramble is part of stimuli process, temporary saved as sc to avoid
 % writing too many words
@@ -76,7 +76,7 @@ for i = 1:size(temp_w,1)
     sc.words.length(i) = stimuli.box.references{stimuli.box.references.nbChar == sc.words.nLetters(i), 4};
     sc.words.height(i) = stimuli.box.references{stimuli.box.references.nbChar == sc.words.nLetters(i), 5};
     % How many dots to represent
-    sc.words.nDots(i) = getWordDots(temp_w(i));
+    sc.words.nDots(i) = getWordDots(temp_w(i), stimuli);
 end
 
 %% Get and save coordinates of where to draw dots 
@@ -151,9 +151,11 @@ end
 
 stimuli.dots = sc;
 %% Save
-save('localizer_mock_1908.mat','localizer_words','stimuli');
+save('localizer_sota0831.mat','localizer_words','stimuli');
 
-%% Print examples 
+% If don't care about printing examples, go to 'visualize
+
+%% Print examples - useful later on
 
 PsychDefaultSetup(2);
 screens = Screen('Screens');

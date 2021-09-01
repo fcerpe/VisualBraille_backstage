@@ -43,7 +43,7 @@ stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.brail
 localizer_words = importWords('localizer_words_1st_attempt.txt');
 
 stimuli.french.words = localizer_words{:,1};
-stimuli.braille.words = brailify(stimuli.french.words);
+stimuli.braille.words = brailify(stimuli.french.words, stimuli);
 
 % Add reference to use later in box calculations
 stimuli.braille.reference_letter = char(10303);
@@ -114,7 +114,7 @@ try
         Screen('Flip', stimuli.box.win);
         
         % Also get the length of single letter words (a.k.a. letters without spaces)
-        stimuli.box.words.letterLength(fw) = getWordLength(stimuli.french.words{fw});
+        stimuli.box.words.letterLength(fw) = getWordLength(stimuli.french.words{fw}, stimuli);
         
 %         % Perform the same for non-words
 %         % entire non-word
@@ -188,8 +188,9 @@ stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
 % IMPORTANT: many info about screen are not saved at the moment. Not
 % relevant now, can be added later
 
-save('localizer_mock_1908.mat','localizer_words','stimuli');
+save('localizer_sota0831.mat','localizer_words','stimuli');
 clear
 
+% Next, run 'scrambleDots.m'
 
 

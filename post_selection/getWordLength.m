@@ -1,4 +1,4 @@
-function out_num = getWordLength(in_str)
+function out_num = getWordLength(in_str, in_set)
 % COMPUTE WORD LENGTH Length in pixels of a given word
 
 % Calculate the length in pixels of a given word, functional to presentation box
@@ -15,7 +15,7 @@ function out_num = getWordLength(in_str)
 % the first point)
 % - sum them to obtain the word length on the x axis
 
-load('stimuli_post_selection.mat','stimuli');
+stimuli = in_set;
 
 char_array = char(split(in_str,''));
 char_array = char_array(2:length(char_array)-1); %removes first and last empty chars
@@ -27,7 +27,7 @@ tot_length = 0;
 for l = 1:length(char_array)
     
     % Look at the letters table and get the corresponding length
-    this_length = stimuli.boxPresentation.letters{stimuli.boxPresentation.letters.char == char_array(l),3}; 
+    this_length = stimuli.box.letters{stimuli.box.letters.char == char_array(l),3}; 
     
     % SUm it to the other ones
     tot_length = tot_length + this_length; % new (end X - begin X) added to tot

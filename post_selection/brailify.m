@@ -1,4 +1,4 @@
-function out_str = brailify(in_str)
+function out_str = brailify(in_str, in_conv)
 %BRAILIFY Converts a string from french alphabet to french expressed in braille
 %   Char referring to french letters (even all the accented ones) are
 %   replaced by braille chars
@@ -7,7 +7,7 @@ function out_str = brailify(in_str)
 % IMPORTANT: LOWERCASE ONLY (for the moment at least)
 
 % Load workspace containing mapping between characters
-load('stimuli_post_selection.mat','stimuli');
+stimuli = in_conv;
 
 fr = stimuli.conversion{:,1};
 br = stimuli.conversion{:,2};

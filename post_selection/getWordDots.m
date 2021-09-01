@@ -1,4 +1,4 @@
-function out_num = getWordDots(in_str)
+function out_num = getWordDots(in_str, in_set)
 % COMPUTE NUMBER OF DOTS FOR A WORD 
 
 % Calculate the number of braille dots used to represent a given word
@@ -15,7 +15,7 @@ function out_num = getWordDots(in_str)
 % the first point)
 % - sum them to obtain the word length on the x axis
 
-load('stimuli_post_selection.mat','stimuli');
+stimuli = in_set;
 
 char_array = char(split(in_str,''));
 char_array = char_array(2:length(char_array)-1); %removes first and last empty chars
