@@ -1,0 +1,130 @@
+alarm clock
+anchor
+antenna
+armchair
+axe
+backpack
+bagel
+baguette
+ball
+balloon
+bandage
+band aid
+baseball
+battery
+belt
+binoculars
+birdie
+book
+boosterseat
+boot
+boxcutter
+branch
+brick
+broom
+bucket
+butter dish
+button
+calculator
+candle
+candle holder
+cane
+chalk
+chisel
+cigarette
+cleaver
+clock
+coffee pot
+comb
+crayon
+croissant
+deodorant
+diaper
+doll
+envelope
+feather
+fishing hook
+floppy disk
+folder
+fork
+glasses
+hammer
+handbag
+hand fan
+hand rake
+hanger
+hat
+headphones
+hinge
+jug
+key
+lamp
+bracket
+lightbulb
+lighter
+magnifying glass
+mask
+match
+microphone
+microscope
+mitten
+monitor
+mug
+nail
+pacifier
+paintbrush
+pants
+paper clip
+peeler
+pen
+pencil
+pencil case
+peppermill
+piggybank
+ping pong paddle
+pitcher
+plate
+playing card
+pot
+punching bag
+pylon
+salt shaker
+sandal
+scale
+scarf
+scissors
+screw
+screwdriver
+seashell
+shovel
+sippycup
+sock
+spatula
+spraybottle
+squeegeeb
+strainer
+suitcase
+sword
+syringe
+tambourine
+teapot
+tennisball
+thermos
+thumb tack
+tie
+tomato
+tongs
+tray
+trident
+tshirt
+tube
+umbrella
+vase
+violin
+walkman
+walnut
+watch
+watering can
+weight
+wheel
+whisk

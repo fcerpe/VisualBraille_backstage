@@ -40,7 +40,7 @@ stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.brail
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 % create braille words
 % load('localizer_stimuli.mat');
-localizer_words = importWords('localizer_words_1st_attempt.txt');
+localizer_words = importWords('localizer_selection.txt');
 
 stimuli.french.words = localizer_words{:,1};
 stimuli.braille.words = brailify(stimuli.french.words, stimuli);
@@ -53,8 +53,9 @@ stimuli.braille.reference_letter = char(10303);
 % Remove accents if there are any. Manual
 stimuli.variableNames = string(stimuli.french.words);
 
-% Pièce -> piece
-stimuli.variableNames(8) = "piece";
+% Change names with the accent into file-compatible chars
+% Manual, easier
+%stimuli.variableNames(20) = "cuillere";
 
 %% 3. GET GRAPHICAL DETAILS Pt. 1
 % Calculate dimensions in pixel for each letter. Open screen to compute the
@@ -188,7 +189,7 @@ stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
 % IMPORTANT: many info about screen are not saved at the moment. Not
 % relevant now, can be added later
 
-save('localizer_sota0831.mat','localizer_words','stimuli');
+save('localizer_sota0907.mat','localizer_words','stimuli');
 clear
 
 % Next, run 'scrambleDots.m'

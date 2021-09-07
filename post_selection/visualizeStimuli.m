@@ -7,7 +7,7 @@
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 clear
-load('localizer_sota0831.mat');
+load('localizer_sota0907.mat');
 
 %% Print the words
 
@@ -59,7 +59,7 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.fw.scr_' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
+        eval(['images.fw.' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
         WaitSecs(0.5);
         
         % BRAILLE WORDS
@@ -70,7 +70,7 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.bw.scr_' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
+        eval(['images.bw.' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
         WaitSecs(0.5);
         
         % SCRAMBLE BRAILLE WORDS
@@ -83,7 +83,7 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.sbw.scr_' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
+        eval(['images.sbw.' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
         WaitSecs(0.5);
                
     end
@@ -118,6 +118,6 @@ end
 
 %% FINAL CLEANUP AND SAVE
 
-save('localizer_sota0831.mat','localizer_words','stimuli','images');
+save('localizer_sota0907.mat','localizer_words','stimuli','images');
 
 
