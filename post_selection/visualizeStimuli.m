@@ -80,7 +80,7 @@ try
         eval(['thisWord = stimuli.dots.result.' wordFilename ';']);
         
         for d = 1:length(thisWord.coords)
-            DrawFormattedText(this.win, double(10241), thisWord.coords(d,1), thisWord.coords(d,2), this.txt_color);
+            DrawFormattedText(this.win, double(10241), thisWord.coords(1,d), thisWord.coords(2,d), this.txt_color);
         end
         Screen('Flip', this.win);
                 
@@ -131,13 +131,13 @@ catch
 end
 
 figure
-imshow(images.ld.clef)
+imshow(images.sbw.clef)
 figure
 imshow(images.bw.clef)
 figure
-imshow(images.fw.clef)
+imshow(images.sbw.cuillere)
 figure
-imshow(images.fw.cuillere)
+imshow(images.bw.cuillere)
 
 %% FINAL CLEANUP AND SAVE
 

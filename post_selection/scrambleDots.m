@@ -139,8 +139,8 @@ for k = 1:size(sc.words,1) % for each word to sc
     % Change of plans, dots are drawn poorly. Better to use 'a'. This means
     % having already centered coordinates
     %  New coord =              original coord      +  center of the screen  +  letter shift
-    dotPositionMatrix(1,:) = dotPositionMatrix(1,:) + (1920/2 - drawableX/2) + round(sc.minDist/2);
-    dotPositionMatrix(2,:) = dotPositionMatrix(2,:) + (1080/2 - drawableY/2) + sc.minDist;
+    dotPositionMatrix(1,:) = dotPositionMatrix(1,:) + (1920/2 - drawableX/2) - sc.d;
+    dotPositionMatrix(2,:) = dotPositionMatrix(2,:) + (1080/2 - drawableY/2) + (this_w.height - sc.r);
     
     % Save in struct 
     eval(['sc.result.' char(stimuli.variableNames(k)) '.coords = dotPositionMatrix;']);
@@ -157,7 +157,7 @@ end
 
 stimuli.dots = sc;
 %% Save
-save('localizer_sota1008.mat','localizer_words','stimuli');
+save('localizer_sota1008.mat','localizer_words','stimuli','images');
 
 % If don't care about printing examples, go to 'visualizeStimuli.m'
 
