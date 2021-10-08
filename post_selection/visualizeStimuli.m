@@ -7,12 +7,11 @@
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 clear
-load('localizer_sota0907.mat');
+load('localizer_sota1008.mat');
 
 %% Print the words
 
 this = stimuli.box;
-images = struct;
 
 % Open Screen and add background
 Screen('Preference', 'SkipSyncTests', 1);
@@ -35,12 +34,8 @@ try
     for i=1:size(this.words,1)
         
         % Screenshot stuff
-        % Name is images.scr_word
+        % Name is images.ld.word
         wordFilename = char(stimuli.variableNames(i));
-                      
-        % Square of 400*400px around the center (temp)
-        halfX = this.w_x/2; halfY = this.w_y/2;
-        position = [halfX-160 halfY-50 320 100];
         
         % Get word infos and parameters: char array to print and
         % coordinates on where to do so
@@ -50,7 +45,8 @@ try
         % Blank screen
         Screen('FillRect', this.win, this.bg_color);
         
-        % FRENCH WORDS
+        % FW
+        %
         % Make letters start at the same pixel (just with a and b at the moment)
         for d = 1:length(thisChar)
             DrawFormattedText(this.win, thisChar(d), thisCoord(d,1), thisCoord(d,2), this.txt_color);
@@ -59,10 +55,15 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.fw.' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
+        eval(['images.fw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
         WaitSecs(0.5);
         
-        % BRAILLE WORDS
+        % SFW
+        %
+        % To come later
+        
+        % BW
+        %
         % Just print them as centered
         DrawFormattedText(this.win, double(stimuli.braille.words{i}), 'center', 'center', this.txt_color);
         
@@ -70,21 +71,34 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.bw.' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
+        eval(['images.bw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
         WaitSecs(0.5);
         
-        % SCRAMBLE BRAILLE WORDS
+        % SBW
+        %
         % Get current coords and center
         eval(['thisWord = stimuli.dots.result.' wordFilename ';']);
-                
-        Screen('DrawDots', this.win, thisWord.coords, stimuli.dots.d, this.txt_color, thisWord.center, 2);
         
+        for d = 1:length(thisWord.coords)
+            DrawFormattedText(this.win, double(10241), thisWord.coords(d,1), thisWord.coords(d,2), this.txt_color);
+        end
         Screen('Flip', this.win);
+                
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.sbw.' wordFilename ' = temp_scr(491:590, 801:1120, :)']);
+        eval(['images.sbw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
         WaitSecs(0.5);
+        
+        
+        
+        % LD
+        %
+        % Already made when imported, just to note
+        
+        % SLD
+        %
+        % To come later
                
     end
     
@@ -116,8 +130,17 @@ catch
     
 end
 
+figure
+imshow(images.ld.clef)
+figure
+imshow(images.bw.clef)
+figure
+imshow(images.fw.clef)
+figure
+imshow(images.fw.cuillere)
+
 %% FINAL CLEANUP AND SAVE
 
-save('localizer_sota0907.mat','localizer_words','stimuli','images');
+save('localizer_sota1008.mat','localizer_words','stimuli','images');
 
 

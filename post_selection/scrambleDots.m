@@ -14,7 +14,7 @@
 clear
 
 % Load the list of words to be scrambled
-load('localizer_sota0907.mat');
+load('localizer_sota1008.mat');
 
 % Scramble is part of stimuli process, temporary saved as sc to avoid
 % writing too many words
@@ -90,7 +90,7 @@ end
 
 % General information about the dot:
 sc.d = sc.dot.diameter;
-sc.r = sc.d/2;
+sc.r = round(sc.d/2);
 
 % Minimum distance = usual distance from the center = reference of ⠿ on
 % the x axis. SUBJECT TO FONT SIZE
@@ -136,6 +136,12 @@ for k = 1:size(sc.words,1) % for each word to sc
     dotPositionMatrix = [reshape(allDots(:,1), 1, this_w.nDots); reshape(allDots(:,2), 1, this_w.nDots)];
     dotCenter = [centeredRect(1) centeredRect(2)];
     
+    % Change of plans, dots are drawn poorly. Better to use 'a'. This means
+    % having already centered coordinates
+    %  New coord =              original coord      +  center of the screen  +  letter shift
+    dotPositionMatrix(1,:) = dotPositionMatrix(1,:) + (1920/2 - drawableX/2) + round(sc.minDist/2);
+    dotPositionMatrix(2,:) = dotPositionMatrix(2,:) + (1080/2 - drawableY/2) + sc.minDist;
+    
     % Save in struct 
     eval(['sc.result.' char(stimuli.variableNames(k)) '.coords = dotPositionMatrix;']);
     eval(['sc.result.' char(stimuli.variableNames(k)) '.center = dotCenter;']);
@@ -151,7 +157,7 @@ end
 
 stimuli.dots = sc;
 %% Save
-save('localizer_sota0907.mat','localizer_words','stimuli');
+save('localizer_sota1008.mat','localizer_words','stimuli');
 
 % If don't care about printing examples, go to 'visualizeStimuli.m'
 

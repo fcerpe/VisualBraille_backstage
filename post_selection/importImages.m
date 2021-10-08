@@ -3,7 +3,7 @@
 % Part X of X of the stimuli pipeline
 % get images from the folder and add them to the .mat file
 
-load('localizer_sota0907.mat');
+load('localizer_sota1008.mat');
 
 % Open Screen and add background
 Screen('Preference', 'SkipSyncTests', 1);
@@ -28,7 +28,7 @@ try
     for im = 1:length(stimuli.variableNames)
         
         % Load image
-        eval(['thisIm = imread(''images/' char(stimuli.variableNames(im)) '.jpg'');']);
+        eval(['thisIm = imread(''images/' char(stimuli.variableNames(im)) '_flat.png'');']);
         
         % Present image
         imageTexture = Screen('MakeTexture', this.win, thisIm);
@@ -38,7 +38,7 @@ try
         WaitSecs(0.5);
         
         % Save image 
-        eval(['images.ld.' char(stimuli.variableNames(im)) '= imread(''images/' char(stimuli.variableNames(im)) '.jpg'');']);
+        eval(['images.ld.' char(stimuli.variableNames(im)) '= imread(''images/' char(stimuli.variableNames(im)) '_flat.png'');']);
                 
     end
     
@@ -46,8 +46,6 @@ try
     Screen('FillRect', this.win, this.bg_color);
     Screen('Flip', this.win);
     WaitSecs(2);
-    
-    % Show Braille words - later
     
     % Final screen - don't know if it's still needed. Too afraid to delete
     Screen('FillRect', this.win, this.bg_color);
@@ -70,4 +68,4 @@ catch
     
 end
 
-save('localizer_sota0907.mat','localizer_words','stimuli','images');
+save('localizer_sota1008.mat','localizer_words','stimuli','images');

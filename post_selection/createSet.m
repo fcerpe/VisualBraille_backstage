@@ -2,7 +2,7 @@
 %
 % Part 1 of X
 % From simtuli initial selection, get the words detials 
-% (then: scrambleDots, visualizeStimuli)
+% (then: scrambleDots, visualizeStimuli, importImages, scrambleImg)
 
 clear
 
@@ -54,8 +54,7 @@ stimuli.braille.reference_letter = char(10303);
 stimuli.variableNames = string(stimuli.french.words);
 
 % Change names with the accent into file-compatible chars
-% Manual, easier
-%stimuli.variableNames(20) = "cuillere";
+stimuli.variableNames(20) = "cuillere";
 
 %% 3. GET GRAPHICAL DETAILS Pt. 1
 % Calculate dimensions in pixel for each letter. Open screen to compute the
@@ -78,7 +77,7 @@ try
     % Important: box size changes based on font style and size, worth
     % saving them
     stimuli.box.font = 'Segoe UI Symbol';
-    stimuli.box.size = 50;
+    stimuli.box.size = 90;
     Screen('TextFont', stimuli.box.win, stimuli.box.font);
     Screen('TextSize', stimuli.box.win, stimuli.box.size);
     
@@ -189,8 +188,7 @@ stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
 % IMPORTANT: many info about screen are not saved at the moment. Not
 % relevant now, can be added later
 
-save('localizer_sota0907.mat','localizer_words','stimuli');
-clear
+save('localizer_sota1008.mat','localizer_words','stimuli');
 
 % Next, run 'scrambleDots.m'
 

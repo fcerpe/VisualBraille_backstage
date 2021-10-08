@@ -110,6 +110,7 @@ o1.r_withM = corrcoef([o1.m_tri, o1.b_tri, o1.p_tri, o1.s_tri]);
 
 % Without it
 o1.r = corrcoef([o1.b_tri, o1.p_tri, o1.s_tri]);
+o1.rLev = corrcoef([o1.b_tri, o1.p_tri, o1.s_tri, o1.pw_tri]);
 
 % Write correlations in a .xlsx file, just in case
 writematrix(o1.r,'o1_corr.xlsx');
