@@ -1,7 +1,7 @@
 %% scramble images on the spot for the retreat presentation
 
 clear
-load('localizer_sota0907.mat');
+load('inputs/localizer_sota0907.mat');
 
 % 550x300 -> squares of 10, or 25, or 50 px
 %

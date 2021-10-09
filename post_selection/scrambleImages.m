@@ -5,12 +5,6 @@ load('localizer_sota1008.mat');
 
 % 550x300 -> squares of 10, or 25, or 50 px
 %
-%       1 13 25 37 49 61 73 85 97 109 121 133 145 157 169 X X X X X X X X X X X X X X X X X X X X X X 
-%       2 14 26 38 50 62 74 86 98 110 122 134 146 158 170 X X X X X X X X X X X X X X X X X X X X X X 
-%       X X X X X X X X X X X X X X X X X X X X X X 
-%       X X X X X X X X X X X X X X X X X X X X X X 
-%       X X X X O Q X X X X X X X X X X X X X X X X 
-%       X X X X X X X X X X X X X X X X X X X X X X 
 %       X X X X X X X X X X X X X X X X X X X X X X 
 %       X X X X X X X X X X X X X X X X X X X X X X 
 %       X X X X X X X X X X X X X X X X X X X X X X 
@@ -42,21 +36,23 @@ for loop = 1:length(stimuli.variableNames)
     
     % to loop through the new order
     k = 1;
+    
     for i = 1:25:300
         for j = 1:25:550
             % get starting position for copy-paste
-            % X
-            y = (mod(newOrder(k),12)*25)-24; % every 22 start again in a new row
-            if mod(newOrder(k),12) == 0
-                y = 276;
-            end
-            
             % Y
-            x = (floor(newOrder(k)/12))*25 + 1;
-            if newOrder(k) == 264
-                x = 526;
+            y = startY(mod(newOrder(k),12)); % every 22 start again in a new row
+            if mod(newOrder(k),12) == 0
+                y = startY(end);
+            end
+            % X
+            x = startX(floor(newOrder(k)/22)+1);
+            if mod(newOrder(k),22) == 0 % multiple of 12, end of the coloumn
+                x = startX(end);
             end
             
+            % block in this position = block from the corresponding random
+            % position
             newMat(i:i+24, j:j+24, :) = this(y:y+24, x:x+24, :);
             k = k+1;
         end
@@ -64,7 +60,7 @@ for loop = 1:length(stimuli.variableNames)
     
     % save mat as image format and put it with the other stimuli
     newMat = uint8(newMat);
-    eval(['images.sfw.' char(stimuli.variableNames(loop)) ' = newMat;']);
+    eval(['images.sfw.' variableNames(loop) ' = newMat;']);
 
 end
 
@@ -79,34 +75,24 @@ for loop = 1:length(stimuli.variableNames)
     startY = 1:25:300;
     startX = 1:25:550;
     
-    % new arrangement. Permutation tells us which block will be put into
-    % the position.
-    % e.g. newMat position 1 = old mat position 56
+    % new arrangement and new temp matrix
     newOrder = randperm(264);
-    
-    % and new temp matrix
     newMat = zeros(300,550,3);
-    coords = zeros(264,2);
-    
-    % to loop through the new order
     k = 1;
+    
     for i = 1:25:300
         for j = 1:25:550
             % get starting position for copy-paste
             % X
-            y = (mod(newOrder(k),12)*25)-24; % every 22 start again in a new row
-            if mod(newOrder(k),12) == 0
-                y = 276;
+            x = startX(mod(newOrder(k),22)); % every 22 start again in a new row
+            if mod(newOrder(k),22) == 0
+                x = startX(end);
             end
-                       
             % Y
-            x = (floor(newOrder(k)/12))*25 + 1;
-            if newOrder(k) == 264
-                x = 526;
+            y = startY(floor(newOrder(k)/12)+1);
+            if mod(newOrder(k),12) == 0 % multiple of 12, end of the coloumn
+                y = startY(end);
             end
-            
-            coords(k,1) = x;
-            coords(k,2) = y;
             
             newMat(i:i+24, j:j+24, :) = this(y:y+24, x:x+24, :);
             k = k+1;
@@ -115,7 +101,7 @@ for loop = 1:length(stimuli.variableNames)
     
     % save mat as image format and put it with the other stimuli
     newMat = uint8(newMat);
-    eval(['images.sld.' char(stimuli.variableNames(loop)) ' = newMat;']);
+    eval(['images.sld.' variableNames(loop) ' = newMat;']);
 
 end
 
