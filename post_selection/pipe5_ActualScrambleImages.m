@@ -3,10 +3,10 @@
 clear
 load('localizer_sota1008.mat');
 
-% 550x300 -> squares of 10, or 25, or 50 px
+% 550x300
 %
-%       1 13 25 37 49 61 73 85 97 109 121 133 145 157 169 X X X X X X X X X X X X X X X X X X X X X X 
-%       2 14 26 38 50 62 74 86 98 110 122 134 146 158 170 X X X X X X X X X X X X X X X X X X X X X X 
+%       X X X X X X X X X X X X X X X X X X X X X X 
+%       X X X X X X X X X X X X X X X X X X X X X X 
 %       X X X X X X X X X X X X X X X X X X X X X X 
 %       X X X X X X X X X X X X X X X X X X X X X X 
 %       X X X X O Q X X X X X X X X X X X X X X X X 
