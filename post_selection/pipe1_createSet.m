@@ -188,7 +188,7 @@ stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
 % IMPORTANT: many info about screen are not saved at the moment. Not
 % relevant now, can be added later
 
-save('localizer_sota1008.mat','localizer_words','stimuli');
+save('localizer_sota1012.mat','localizer_words','stimuli');
 
 % Next, run 'scrambleDots.m'
 

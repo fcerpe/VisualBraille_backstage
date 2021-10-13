@@ -14,7 +14,7 @@
 clear
 
 % Load the list of words to be scrambled
-load('localizer_sota1008.mat');
+load('localizer_sota1012.mat');
 
 % Scramble is part of stimuli process, temporary saved as sc to avoid
 % writing too many words
@@ -157,7 +157,7 @@ end
 
 stimuli.dots = sc;
 %% Save
-save('localizer_sota1008.mat','localizer_words','stimuli','images');
+save('localizer_sota1012.mat','localizer_words','stimuli');
 
 % If don't care about printing examples, go to 'visualizeStimuli.m'
 

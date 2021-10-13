@@ -3,7 +3,7 @@
 % Part X of X of the stimuli pipeline
 % get images from the folder and add them to the .mat file
 
-load('localizer_sota1008.mat');
+load('localizer_sota1012.mat');
 
 % Open Screen and add background
 Screen('Preference', 'SkipSyncTests', 1);
@@ -68,4 +68,4 @@ catch
     
 end
 
-save('localizer_sota1008.mat','localizer_words','stimuli','images');
+save('localizer_sota1012.mat','localizer_words','stimuli','images');

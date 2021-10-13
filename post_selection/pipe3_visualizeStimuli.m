@@ -7,7 +7,7 @@
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 clear
-load('localizer_sota1008.mat');
+load('localizer_sota1012.mat');
 
 %% Print the words
 
@@ -141,6 +141,6 @@ imshow(images.bw.cuillere)
 
 %% FINAL CLEANUP AND SAVE
 
-save('localizer_sota1008.mat','localizer_words','stimuli','images');
+save('localizer_sota1012.mat','localizer_words','stimuli','images');
 
 

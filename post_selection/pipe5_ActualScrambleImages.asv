@@ -99,8 +99,8 @@ end
 
 %% second loop for SLD (same)
 
-for loop = 1:length(stimuli.variableNames)
-        
+for loop = 20:20
+    
     % get current stimulus 
     eval(['this = images.ld.' char(stimuli.variableNames(loop)) ';']);
     
@@ -134,18 +134,18 @@ for loop = 1:length(stimuli.variableNames)
     
     % in particular cases, images are bad. Brute force those (I checked
     % the matrices manually, so it's ok) 
-    if loop == 4
-        iniY = 90; endY = 210; 
-    end
-    if loop == 5
-        iniY = 110;
-    end
-    if loop == 10
-        endY = 187; 
-    end
-    if loop == 20
-        iniY = 115; endY = 200; iniX = 25; endX = 531;
-    end
+%     if loop == 4
+%         iniY = 90; endY = 210; 
+%     end
+%     if loop == 5
+%         iniY = 110;
+%     end
+%     if loop == 10
+%         iniY = 115; endY = 200; iniX = 25; endX = 531;
+%     end
+%     if loop == 20
+%         iniY = 115; endY = 200; iniX = 25; endX = 531;
+%     end
 
        
     
