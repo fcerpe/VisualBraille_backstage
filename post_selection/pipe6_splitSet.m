@@ -6,11 +6,9 @@
 %
 % Split the dataset in two so it's easier to present them in the scanner
 clear
-load('localizer_del.mat');
+load('localizer_sota1019.mat');
 
-
-% bw_size done manually
-
+% Calc pixel value for each (intact) stimulus
 for i=1:length(stimuli.variableNames)
     
     % Define your images
@@ -58,11 +56,18 @@ for i=1:length(stimuli.variableNames)
   
 end
 
-m_fw = mean(table2array(stimuli.px_dimensions(:,3)));
-m_bw = mean(table2array(stimuli.px_dimensions(:,5)));
-m_ld = mean(table2array(stimuli.px_dimensions(:,7)));
+px_fw = table2array(stimuli.px_dimensions(:,3));
+px_bw = table2array(stimuli.px_dimensions(:,5));
+px_ld = table2array(stimuli.px_dimensions(:,7));
 
-[m_fw, m_bw, m_ld]
+[mean(px_fw), mean(px_bw), mean(px_ld)]
+
+[ht3, pt3] = ttest(px_fw,px_bw)
+[ht3, pt3] = ttest(px_bw,px_ld)
+[ht3, pt3] = ttest(px_fw,px_ld) 
+
+% All significant or almost (0.07). Not good
+
 
 
 
