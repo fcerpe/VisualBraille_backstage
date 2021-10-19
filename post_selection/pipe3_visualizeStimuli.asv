@@ -55,7 +55,7 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.fw.' wordFilename ' = temp_scr(437:644, 701:1220, :)']);
+        eval(['images.fw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
         WaitSecs(0.5);
         
         % SFW
@@ -71,7 +71,7 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.bw.' wordFilename ' = temp_scr(437:644, 701:1220, :)']);
+        eval(['images.bw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
         WaitSecs(0.5);
         
         % SBW
@@ -87,7 +87,7 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.sbw.' wordFilename ' = temp_scr(437:644, 701:1220, :)']);
+        eval(['images.sbw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
         WaitSecs(0.5);
         
         
@@ -130,17 +130,17 @@ catch
     
 end
 
-% print two examples each 
-figure, imshow(images.fw.clef)
-figure, imshow(images.bw.clef)
-figure, imshow(images.sbw.clef)
-figure, imshow(images.fw.cuillere)
-figure, imshow(images.bw.cuillere)
-figure, imshow(images.sbw.cuillere)
+figure
+imshow(images.sbw.clef)
+figure
+imshow(images.bw.clef)
+figure
+imshow(images.sbw.cuillere)
+figure
+imshow(images.bw.cuillere)
 
 %% FINAL CLEANUP AND SAVE
 
-clearvars ans d i screens temp_scr this thisChar thisCoord thisWord whichscreen wordFilename
-save('localizer_sota1019.mat','localizer_words','stimuli','images');
+save('localizer_sota1012.mat','localizer_words','stimuli','images');
 
 

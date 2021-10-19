@@ -14,7 +14,7 @@
 clear
 
 % Load the list of words to be scrambled
-load('localizer_sota1012.mat');
+load('localizer_sota1019.mat');
 
 % Scramble is part of stimuli process, temporary saved as sc to avoid
 % writing too many words
@@ -139,8 +139,8 @@ for k = 1:size(sc.words,1) % for each word to sc
     % Change of plans, dots are drawn poorly. Better to use 'a'. This means
     % having already centered coordinates
     %  New coord =              original coord      +  center of the screen  +  letter shift
-    dotPositionMatrix(1,:) = dotPositionMatrix(1,:) + (1920/2 - drawableX/2) - sc.d;
-    dotPositionMatrix(2,:) = dotPositionMatrix(2,:) + (1080/2 - drawableY/2) + (this_w.height - sc.r);
+    dotPositionMatrix(1,:) = dotPositionMatrix(1,:) + (1920/2 - drawableX/2) - sc.d -sc.r;
+    dotPositionMatrix(2,:) = dotPositionMatrix(2,:) + (1080/2 - drawableY/2) + (this_w.height - sc.r) - sc.r/2;
     
     % Save in struct 
     eval(['sc.result.' char(stimuli.variableNames(k)) '.coords = dotPositionMatrix;']);
@@ -157,46 +157,6 @@ end
 
 stimuli.dots = sc;
 %% Save
-save('localizer_sota1012.mat','localizer_words','stimuli');
-
-% If don't care about printing examples, go to 'visualizeStimuli.m'
-
-%% Print examples - useful later on
-% 
-% PsychDefaultSetup(2);
-% screens = Screen('Screens');
-% screenNumber = max(screens);
-% [sc.win, sc.rect] = PsychImaging('OpenWindow', screenNumber, stimuli.box.bg_color);
-% 
-% Screen('TextFont', sc.win, sc.font);
-% Screen('TextSize', sc.win, sc.size); 
-% 
-% % Get dot infos
-% Screen('BlendFunction', sc.win, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-% dotColor = stimuli.box.txt_color;   
-% 
-% for i = 1:length(sc.words.string)
-%     
-%     this = sc.words.string(i);
-%     thisVar = stimuli.variableNames(i);
-%     eval(['this_st = sc.result.' char(thisVar) ';']);
-%     dPM = this_st.coords;
-%     
-%     this_br = stimuli.braille.words{i};
-%     
-%     % Draw word and wait for keyboard (until screenshot)
-%     DrawFormattedText(sc.win, double(this_br), 'center', 'center', dotColor);
-%     Screen('Flip', sc.win);
-%     KbStrokeWait;
-%     
-%     % Draw them all
-%     Screen('DrawDots', sc.win, this_st.coords, sc.d, dotColor, this_st.center, 2);
-%     Screen('Flip', sc.win);
-%     
-%     KbStrokeWait;
-% end
-% 
-% sca;
-
-
+clearvars allDots ans baseRect centeredRect dotCenter dotPositionMatrix drawableX drawableY i k l sc screens temp_bounds temp_w this_x this_y whichscreen
+save('localizer_sota1019.mat','localizer_words','stimuli');
 
