@@ -70,6 +70,6 @@ px_ld = table2array(stimuli.px_dimensions(:,7));
 
 
 
-
+save('localizer_sota_1026.mat');
 
 % antialias / import images / cast as white 

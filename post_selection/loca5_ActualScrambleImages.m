@@ -59,9 +59,9 @@ for loop = 1:length(stimuli.variableNames)
     
     % round dimensions to a cell unit (25x25 pixels)
     fX = 26*floor(iniX/26)+1;
-    lX = 26*(floor(endX/26)+1);
+    lX = 26*(floor(endX/26)+1); if endX == 520, lX = 520; end
     fY = 26*floor(iniY/26)+1;
-    lY = 26*(floor(endY/26)+1);
+    lY = 26*(floor(endY/26)+1); if endY == 208, lY = 208; end 
     
     % new arrangement. Permutation tells us which block will be put into
     % the position.

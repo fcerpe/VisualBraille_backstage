@@ -8,6 +8,8 @@ function [outChar, outArray] = makeCoordinates(inWord, t)
 
 inChar = char(inWord.string);
 
+if 
+
 % How many letters
 % Get the single letters and their infos
 for l = 1:length(inChar)

@@ -18,3 +18,12 @@ seringue
 ceinture
 batterie
 cuillère
+
+cochon
+faucon
+balcon
+vallon
+poulet
+roquet
+chalet
+sommet

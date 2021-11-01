@@ -7,7 +7,7 @@
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 clear
-load('localizer_sota1019.mat');
+load('mvpa_trial1101.mat');
 
 %% Print the words
 
@@ -40,8 +40,11 @@ try
         % Get word infos and parameters: char array to print and
         % coordinates on where to do so
         thisWord = this.words(i,:);
-        [thisChar, thisCoord] = makeCoordinates(thisWord, this);
-               
+        [thisChar, thisCoord] = mvpaCoordinates(thisWord, this, i);
+        
+        thisNword = this.nonwords(i,:);
+        [thisNchar, thisNcoord] = mvpaCoordinates(thisNword, this, i);
+
         % Blank screen
         Screen('FillRect', this.win, this.bg_color);
         
@@ -55,50 +58,46 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.fw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
-        WaitSecs(0.5);
+        eval(['images.words.w' char(num2str(i)) ' = temp_scr(437:644, 701:1220, :)']);
+        WaitSecs(0.3);
         
-        % SFW
-        %
-        % To come later
-        
+           
         % BW
         %
         % Just print them as centered
         DrawFormattedText(this.win, double(stimuli.braille.words{i}), 'center', 'center', this.txt_color);
-        
         Screen('Flip', this.win);
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.bw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
-        WaitSecs(0.5);
+        eval(['images.words.w' char(num2str(i+8)) ' = temp_scr(437:644, 701:1220, :)']);
+        WaitSecs(0.3);
         
-        % SBW
+        % FNW
         %
-        % Get current coords and center
-        eval(['thisWord = stimuli.dots.result.' wordFilename ';']);
-        
-        for d = 1:length(thisWord.coords)
-            DrawFormattedText(this.win, double(10241), thisWord.coords(1,d), thisWord.coords(2,d), this.txt_color);
+        % Make letters start at the same pixel (just with a and b at the moment)
+        for d = 1:length(thisNchar)
+            DrawFormattedText(this.win, thisNchar(d), thisNcoord(d,1), thisNcoord(d,2), this.txt_color);
         end
         Screen('Flip', this.win);
-                
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.sbw.' wordFilename ' = temp_scr(391:690, 686:1235, :)']);
-        WaitSecs(0.5);
+        eval(['images.nonwords.w' char(num2str(i)) ' = temp_scr(437:644, 701:1220, :)']);
+        WaitSecs(0.3);
         
-        
-        
-        % LD
+           
+        % BNW
         %
-        % Already made when imported, just to note
+        % Just print them as centered
+        DrawFormattedText(this.win, double(stimuli.braille.nonwords{i}), 'center', 'center', this.txt_color);
+        Screen('Flip', this.win);
+        % Screenshot: first all the screen, then cut what we need 
+        % (PTB was not cooperating, that's why the double step)
+        temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
+        eval(['images.nonwords.w' char(num2str(i+8)) ' = temp_scr(437:644, 701:1220, :)']);
+        WaitSecs(0.3);
         
-        % SLD
-        %
-        % To come later
                
     end
     
@@ -130,17 +129,9 @@ catch
     
 end
 
-figure
-imshow(images.sbw.clef)
-figure
-imshow(images.bw.clef)
-figure
-imshow(images.sbw.cuillere)
-figure
-imshow(images.bw.cuillere)
-
 %% FINAL CLEANUP AND SAVE
 
-save('localizer_sota1012.mat','localizer_words','stimuli','images');
+clearvars ans d i screens temp_scr this thisChar thisCoord thisWord whichscreen wordFilename thisNchar thisNword thisNcoord
+save('mvpa_trial1101.mat');
 
 
