@@ -7,7 +7,7 @@
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 clear
-load('localizer_sota1019.mat');
+load('localizer_stimuli.mat');
 
 %% Print the words
 
@@ -56,7 +56,7 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
         eval(['images.fw.' wordFilename ' = temp_scr(437:644, 701:1220, :)']);
-        WaitSecs(0.5);
+        WaitSecs(3);
         
         % SFW
         %
@@ -72,7 +72,7 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
         eval(['images.bw.' wordFilename ' = temp_scr(437:644, 701:1220, :)']);
-        WaitSecs(0.5);
+        WaitSecs(3);
         
         % SBW
         %
@@ -88,7 +88,7 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
         eval(['images.sbw.' wordFilename ' = temp_scr(437:644, 701:1220, :)']);
-        WaitSecs(0.5);
+        WaitSecs(3);
         
         
         
@@ -141,6 +141,6 @@ figure, imshow(images.sbw.cuillere)
 %% FINAL CLEANUP AND SAVE
 
 clearvars ans d i screens temp_scr this thisChar thisCoord thisWord whichscreen wordFilename
-save('localizer_sota1019.mat','localizer_words','stimuli','images');
+save('localizer_stimuli.mat','localizer_words','stimuli','images');
 
 

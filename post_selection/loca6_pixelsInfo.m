@@ -6,7 +6,7 @@
 %
 % Split the dataset in two so it's easier to present them in the scanner
 clear
-load('localizer_sota1019.mat');
+load('localizer_stimuli.mat');
 
 % Calc pixel value for each (intact) stimulus
 for i=1:length(stimuli.variableNames)
@@ -70,6 +70,6 @@ px_ld = table2array(stimuli.px_dimensions(:,7));
 
 
 
-save('localizer_sota_1026.mat');
+save('localizer_stimuli.mat');
 
 % antialias / import images / cast as white 

@@ -190,7 +190,7 @@ stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
 
 clearvars ans fl fw n nDots ref_word screens temp_bounds unicode whichscreen yPositionIsBaseline
 
-save('localizer_sota1019.mat','localizer_words','stimuli');
+save('localizer_stimuli.mat','localizer_words','stimuli');
 
 % Next, run 'scrambleDots.m'
 

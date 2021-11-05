@@ -1,7 +1,7 @@
 %% scramble images on the spot for the retreat presentation
 
 clear
-load('localizer_sota1019.mat');
+load('localizer_stimuli.mat');
 
 % start saving data about pixels
 stimuli.px_dimensions = table('Size',[20, 7], 'VariableTypes',{'string','double','double','cell','double','cell','double'},...
@@ -19,7 +19,7 @@ stimuli.px_dimensions.fw_size = stimuli.box.words.coord;
 %       X X X X X X X X X X X X X X X X X X X X total = 160 squares
 
 % first loop for SFW
-for loop = 1:length(stimuli.variableNames)
+for loop = 18:18 %:length(stimuli.variableNames)
     
     % get current stimulus 
     eval(['this = images.fw.' char(stimuli.variableNames(loop)) ';']);
@@ -190,4 +190,5 @@ end
 %% Save 
 
 clearvars endX endY fX fY i iniX iniY j k loop lX lY newMat newOrder numCols numRows numSquares sizePx sumX sumY t this word x y 
-save('localizer_sota1019.mat','localizer_words','stimuli','images');
+save('localizer_stimuli.mat','localizer_words','stimuli','images');
+

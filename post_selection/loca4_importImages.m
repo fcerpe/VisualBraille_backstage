@@ -3,7 +3,7 @@
 % Part X of X of the stimuli pipeline
 % get images from the folder and add them to the .mat file
 
-load('localizer_sota1019.mat');
+load('localizer_stimuli.mat');
 
 % Open Screen and add background
 Screen('Preference', 'SkipSyncTests', 1);
@@ -30,24 +30,16 @@ try
         % Load image
         eval(['thisIm = imread(''images/' char(stimuli.variableNames(im)) '_r.png'');']);
         
-%         if im == 1 || im == 12 || im == 16 || im == 18 % only very problematic one
-%             eval(['thisIm = imread(''images/' char(stimuli.variableNames(im)) '_r.png'');']);       
-%         end
-
         % Present image
         imageTexture = Screen('MakeTexture', this.win, thisIm);
         Screen('DrawTexture', this.win, imageTexture, [], [], 0);
         Screen('Flip', this.win);
         
+        % screenshot image
         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
         eval(['images.ld.' char(stimuli.variableNames(im)) ' = temp_scr(437:644, 701:1220, :)']);
         WaitSecs(3);
         
-%         WaitSecs(0.5);
-%         
-%         % Save image 
-%         eval(['images.ld.' char(stimuli.variableNames(im)) '= imread(''images/' char(stimuli.variableNames(im)) '_flat.png'');']);
-%                 
     end
     
     % Buffer screen
@@ -77,4 +69,5 @@ catch
 end
 
 clearvars ans im imageTexture screens temp_scr this thisIm whichscreen
-save('localizer_sota1019.mat','localizer_words','stimuli','images');
+save('localizer_stimuli.mat','localizer_words','stimuli','images');
+
