@@ -43,12 +43,12 @@ stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.brail
 % localizer_words = importWords('localizer_selection.txt');
 
 mvpa_words = {'cochon';'faucon';'balcon';'vallon';'poulet';'roquet';'chalet';'sommet'};
-mvpa_non_words = {'couhon';'faqcon';'baacon';'vamlon';'poclet';'rouuet';'chllet';'solmet'};
+% mvpa_non_words = {'couhon';'faqcon';'baacon';'vamlon';'poclet';'rouuet';'chllet';'solmet'};
 
 stimuli.french.words = mvpa_words;
-stimuli.french.nonwords = mvpa_non_words;
+% stimuli.french.nonwords = mvpa_non_words;
 stimuli.braille.words = brailify(stimuli.french.words, stimuli);
-stimuli.braille.nonwords = brailify(stimuli.french.nonwords, stimuli);
+% stimuli.braille.nonwords = brailify(stimuli.french.nonwords, stimuli);
 
 % Add reference to use later in box calculations
 stimuli.braille.reference_letter = char(10303);
@@ -89,7 +89,7 @@ try
     % Information about letters and words for boxes is sotred into tables
     stimuli.box.letters = table(string(stimuli.french.letters'),'VariableNames',{'char'});
     stimuli.box.words = table(string(stimuli.french.words),'VariableNames',{'string'});
-    stimuli.box.nonwords = table(string(stimuli.french.nonwords),'VariableNames',{'string'});
+%     stimuli.box.nonwords = table(string(stimuli.french.nonwords),'VariableNames',{'string'});
     stimuli.box.references = table('Size',[8 5],'VariableTypes',{'double','string','cell','double','double'},...
                                    'VariableNames',{'nbChar','string','coord','length','height'});
     
@@ -122,15 +122,15 @@ try
         % Also get the length of single letter words (a.k.a. letters without spaces)
         stimuli.box.words.letterLength(fw) = getWordLength(stimuli.french.words{fw}, stimuli);
         
-        % Perform the same for non-words
-        % entire non-word
-        temp_bounds = TextBounds(stimuli.box.win, stimuli.french.nonwords{fw}, yPositionIsBaseline);
-        stimuli.box.nonwords.coord{fw} = temp_bounds; % coordinates for each letter
-        stimuli.box.nonwords.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
-        Screen('Flip', stimuli.box.win);
-        
-        % Single letters summed
-        stimuli.box.nonwords.letterLength(fw) = getWordLength(stimuli.french.nonwords{fw}, stimuli);    
+%         % Perform the same for non-words
+%         % entire non-word
+%         temp_bounds = TextBounds(stimuli.box.win, stimuli.french.nonwords{fw}, yPositionIsBaseline);
+%         stimuli.box.nonwords.coord{fw} = temp_bounds; % coordinates for each letter
+%         stimuli.box.nonwords.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
+%         Screen('Flip', stimuli.box.win);
+%         
+%         % Single letters summed
+%         stimuli.box.nonwords.letterLength(fw) = getWordLength(stimuli.french.nonwords{fw}, stimuli);    
     end
     
     % Get length of braille references
@@ -188,7 +188,7 @@ end
 % Different part as it calls for some variables in stimuli
 
 stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
-stimuli.box.nonwords.spaceLength = getSpaceLength(stimuli.box.nonwords, stimuli.box);
+% stimuli.box.nonwords.spaceLength = getSpaceLength(stimuli.box.nonwords, stimuli.box);
 
 %% X. SAVE STIMULI POST SELECTION
 % IMPORTANT: many info about screen are not saved at the moment. Not
@@ -196,7 +196,7 @@ stimuli.box.nonwords.spaceLength = getSpaceLength(stimuli.box.nonwords, stimuli.
 
 clearvars ans fl fw n nDots ref_word screens temp_bounds unicode whichscreen yPositionIsBaseline
 
-save('mvpa_trial1101.mat','mvpa_words','stimuli');
+save('mvpa_sota1108.mat','mvpa_words','stimuli');
 
 % Next, run 'scrambleDots.m'
 
