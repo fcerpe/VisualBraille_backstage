@@ -1,12 +1,14 @@
 
+clear
+
 realWords = ["canard"; "castor"; "faucon"; "tortue"; "fourmi"; "oiseau"; "poulet"; "renard"; "saumon"; "souris"; ...
              "bouton"; "caméra"; "dessin"; "flacon"; "miroir"; "rasoir"; "montre"; "stéréo"; "valise"; "violon"];
 
 pseudoWords = ["satard"; "catoir"; "fanvon"; "formin"; "paseau"; "poumer"; "renale"; "souson"; "sorise"; "toinue";...
                "boumon"; "cemére"; "disson"; "répoir"; "visoir"; "moitre"; "facoup"; "sivéro";	"vorise"; "voilon"];
 
-nonWords = ["yyqhgw"; "xxykzh"; "ykqgkx"; "zqkhzw"; "gywhxg"; "wxzkgw"; "gkqqzx"; "kyhqwy"; "qqhgwk"; "zghywg";...
-            "hhzxyg"; "kqxzzw"; "wxqzgg"; "ykzxwq"; "ygkhkx"; "kyzkxh"; "hwgqyw"; "zgxqyz"; "qgyxkk"; "xhhwqy"];
+nonWords = ["ghkhwz"; "hjjwky"; "kyqgxy"; "kjwqzx"; "jwykzj"; "yghzwx"; "gxhwxk"; "kqgwwh"; "hyygxz"; "gjzyyw"; ...
+            "zjxhzq"; "yjgxhw"; "kqkwgy"; "gygqhk"; "xzjgwg"; "zwwyxj"; "qqhgkj"; "jxqkhq"; "qyzyhw"; "zxjqgk"];
  
 load('mvpa_stimuli.mat');
 
@@ -26,7 +28,21 @@ pseudoWords(9,3) = "17";pseudoWords(10,3) = "18";pseudoWords(11,3) = "18";pseudo
 pseudoWords(13,3) = "18";pseudoWords(14,3) = "23";pseudoWords(15,3) = "18";pseudoWords(16,3) = "18";
 pseudoWords(17,3) = "16";pseudoWords(18,3) = "22";pseudoWords(19,3) = "18";pseudoWords(20,3) = "19";
 
-nonWords(1,3) = "26";nonWords(2,3) = "22";nonWords(3,3) = "22";nonWords(4,3) = "22";
+nonWords(:,3) = ["22";"21""24"
+"21"
+"22"
+"25"
+"25"
+"23"
+"23"
+"22"
+"23"
+"23"
+"24"
+"22"
+"22"
+"26"
+"22""26";nonWords(2,3) = "22";nonWords(3,3) = "22";nonWords(4,3) = "22";
 nonWords(5,3) = "24";nonWords(6,3) = "22";nonWords(11,3) = "23";nonWords(12,3) = "23";
 nonWords(13,3) = "25";nonWords(14,3) = "24";nonWords(15,3) = "20";nonWords(16,3) = "20";
 nonWords(7,3) = "24";nonWords(8,3) = "24";nonWords(9,3) = "23";nonWords(10,3) = "24";
@@ -45,15 +61,4 @@ sdRW = std(double(selRW(:,3)));
 sdNW = std(double(selNW(:,3)));
 
 save('word_analysis.mat');
-
-
-
-
-save('selection_LetBiTri.mat','allBi','allLet','allTri', ...
-     'p45Bi','p45LogBi','p45Let','p45LogLet','p45Tri','p45LogTri', ...
-     'p55Bi','p55LogBi','p55Let','p55LogLet','p55Tri','p55LogTri', ...
-     'selFreqBi','selFreqLogBi','selFreqLet','selFreqLogLet','selFreqTri','selFreqLogTri', ...
-     'selInfreqBi','selInfreqLogBi','selInfreqLet','selInfreqLogLet','selInfreqTri','selFreqLogTri' ...
-     'selBi','selLet','selTri','selLiving','selNonLiving','selPseudo','selWords', ...
-     'pseudo','reportPseudo','words','reportWords');
 
