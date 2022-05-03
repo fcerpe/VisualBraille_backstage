@@ -10,12 +10,17 @@ clear
 % Create table containing intégral braille conversion of french characters.
 % Then, call function to map based on this conversion
 
+% load the selected words and previous stimuli properties
+load('word_analysis.mat');
+
 % All these arrays are ordered: 1 = a = ⠁ = 10241
 
 % french alphabet with accented letters
 stimuli.french.letters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o',...
     'p','q','r','s','t','u','v','w','x','y','z','ç','é','à','è'...
     'ù','â','ê','î','ô','û','ë','ï','ü'};
+
+stimuli.french.fakescript = {'g','h','k','q','w','x','y','z'};
 
 % braille alphabet with accented letters
 stimuli.braille.letters = {'⠁','⠃','⠉','⠙','⠑','⠋','⠛','⠓','⠊','⠚','⠅','⠇','⠍','⠝',...
@@ -36,9 +41,6 @@ stimuli.braille.summary = table(string(stimuli.french.letters'),string(stimuli.b
 
 % match letters into one table
 stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.braille.letters'),'variableNames',{'fr','br'});
-
-load('word_stimuli.mat');
-
 
 stimuli.french.rw = realWords;
 stimuli.french.pw = pseudoWords;
