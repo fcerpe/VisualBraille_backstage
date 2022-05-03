@@ -10,7 +10,7 @@ clear
 % Create table containing intégral braille conversion of french characters.
 % Then, call function to map based on this conversion
 
-% load the selected words and previous stimuli properties
+% load the word selection
 load('word_analysis.mat');
 
 % All these arrays are ordered: 1 = a = ⠁ = 10241
@@ -20,7 +20,7 @@ stimuli.french.letters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n
     'p','q','r','s','t','u','v','w','x','y','z','ç','é','à','è'...
     'ù','â','ê','î','ô','û','ë','ï','ü'};
 
-stimuli.french.fakescript = {'g','h','k','q','w','x','y','z'};
+stimuli.french.fakescript = {'g','h','j','k','q','w','x','y','z'};
 
 % braille alphabet with accented letters
 stimuli.braille.letters = {'⠁','⠃','⠉','⠙','⠑','⠋','⠛','⠓','⠊','⠚','⠅','⠇','⠍','⠝',...
@@ -42,9 +42,9 @@ stimuli.braille.summary = table(string(stimuli.french.letters'),string(stimuli.b
 % match letters into one table
 stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.braille.letters'),'variableNames',{'fr','br'});
 
-stimuli.french.rw = realWords;
-stimuli.french.pw = pseudoWords;
-stimuli.french.nw = nonWords;
+stimuli.french.rw = selRW(:,1);
+stimuli.french.pw = selPW(:,1);
+stimuli.french.nw = selNW(:,1);
 
 stimuli.braille.rw = brailify(stimuli.french.rw, stimuli);
 stimuli.braille.pw = brailify(stimuli.french.pw, stimuli);
@@ -57,10 +57,9 @@ stimuli.braille.reference_letter = char(10303);
 %
 % Remove accents if there are any. Manual
 stimuli.names.rw = string(stimuli.french.rw);
-stimuli.names.rw(8) = "camera";
+stimuli.names.rw(8) = "camera"; stimuli.names.rw(10) = "stereo";
 stimuli.names.pw = string(stimuli.french.pw);
-stimuli.names.pw(8) = "jamela";
-stimuli.names.pw(10) = "repoir";
+stimuli.names.pw(8) = "cemere"; stimuli.names.pw(9) = "repoir"; stimuli.names.pw(11) = "sivero";
 stimuli.names.nw = string(stimuli.french.nw);
 
 %% 3. GET GRAPHICAL DETAILS Pt. 1
@@ -79,17 +78,18 @@ try
     % PTB opens a windows on the screen with the max index
     screens = Screen('Screens');
     whichscreen = max(screens);
-    [stimuli.box.win, stimuli.box.rect] = Screen('OpenWindow', whichscreen, stimuli.box.bg_color);
+    [stimuli.box.win, stimuli.box.rect] = Screen('OpenWindow', whichscreen, stimuli.box.bg_color, [0 0 1920 1080]);
     
     % Important: box size changes based on font style and size, worth
     % saving them
-    stimuli.box.font = 'Segoe UI Symbol';
+    stimuli.box.font = 'Segoe UI';
     stimuli.box.size = 90;
     Screen('TextFont', stimuli.box.win, stimuli.box.font);
     Screen('TextSize', stimuli.box.win, stimuli.box.size);
     
     % Information about letters and words for boxes is sotred into tables
     stimuli.box.letters = table(string(stimuli.french.letters'),'VariableNames',{'char'});
+    stimuli.box.fakeletters = table(string(stimuli.french.fakescript'),'VariableNames',{'char'});
     stimuli.box.rw = table(string(stimuli.french.rw),'VariableNames',{'string'});
     stimuli.box.pw = table(string(stimuli.french.pw),'VariableNames',{'string'});
     stimuli.box.nw = table(string(stimuli.french.nw),'VariableNames',{'string'});
@@ -118,7 +118,7 @@ try
     % Same for word (with standard spaces included)
     for fw = 1:length(stimuli.french.rw)
         
-        % Get positions of entire RW
+        % FRENCH REAL WORDS
         temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.rw(fw)), yPositionIsBaseline);
         stimuli.box.rw.coord{fw} = temp_bounds; % coordinates for each letter
         stimuli.box.rw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
@@ -126,7 +126,7 @@ try
         % Also get the length of single letter words (a.k.a. letters without spaces)
         stimuli.box.rw.letterLength(fw) = getWordLength(stimuli.french.rw(fw), stimuli);
         
-        % Get positions of entire PW
+        % FRENCH PSEUDO WORDS
         temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.pw(fw)), yPositionIsBaseline);
         stimuli.box.pw.coord{fw} = temp_bounds; % coordinates for each letter
         stimuli.box.pw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
@@ -134,7 +134,7 @@ try
         % Also get the length of single letter words (a.k.a. letters without spaces)
         stimuli.box.pw.letterLength(fw) = getWordLength(stimuli.french.pw(fw), stimuli);
 
-        % Get positions of entire NW
+        % FRENCH NON WORDS
         temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.nw(fw)), yPositionIsBaseline);
         stimuli.box.nw.coord{fw} = temp_bounds; % coordinates for each letter
         stimuli.box.nw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
@@ -161,10 +161,38 @@ try
         ref_word = [ref_word,10303];      
     end
     
+    % FRENCH FAKE SCRIPT
+    stimuli.box.fakefont = 'visbra_fakefont';
+    stimuli.box.fakesize = 100;
+    Screen('TextFont', stimuli.box.win, stimuli.box.fakefont);
+    Screen('TextSize', stimuli.box.win, stimuli.box.fakesize);
+    
+    % FS LETTERS
+    for fl = 1:length(stimuli.french.fakescript)    
+        % Get positions of letter
+        yPositionIsBaseline = 0; % non negative data without (no idea)
+        
+        temp_bounds = TextBounds(stimuli.box.win, stimuli.french.fakescript{fl}, yPositionIsBaseline);
+        stimuli.box.fakeletters.coord{fl} = temp_bounds; % coordinates for each letter
+        stimuli.box.fakeletters.length(fl) = temp_bounds(3) - temp_bounds(1);
+        stimuli.box.fakeletters.height(fl) = temp_bounds(4) - temp_bounds(2); % necessary for true center
+        Screen('Flip', stimuli.box.win);
+        
+    end
+    
+    % FS WORDS
+    temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.nw(fw)), yPositionIsBaseline);
+    stimuli.box.fs.coord{fw} = temp_bounds; % coordinates for each letter
+    stimuli.box.fs.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
+    Screen('Flip', stimuli.box.win);
+    % Also get the length of single letter words (a.k.a. letters without spaces)
+    stimuli.box.fs.letterLength(fw) = getWordLength(stimuli.french.nw(fw), stimuli);
+
     % Maximum is necessary, determines FOV
     stimuli.box.max_rw = max(stimuli.box.rw.length);
     stimuli.box.max_pw = max(stimuli.box.pw.length);
     stimuli.box.max_nw = max(stimuli.box.nw.length);
+    stimuli.box.max_fs = max(stimuli.box.fs.length);
     stimuli.box.max_ref = max(stimuli.box.references.length);
     
     % Absolute is longest string in pixel among words and
