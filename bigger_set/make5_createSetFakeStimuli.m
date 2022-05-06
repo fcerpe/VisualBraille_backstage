@@ -78,7 +78,7 @@ try
     % PTB opens a windows on the screen with the max index
     screens = Screen('Screens');
     whichscreen = max(screens);
-    [stimuli.box.win, stimuli.box.rect] = Screen('OpenWindow', whichscreen, stimuli.box.bg_color, [0 0 1920 1080]);
+    [stimuli.box.win, stimuli.box.rect] = Screen('OpenWindow', whichscreen, stimuli.box.bg_color);
     
     % Important: box size changes based on font style and size, worth
     % saving them
@@ -90,13 +90,17 @@ try
     % Information about letters and words for boxes is sotred into tables
     stimuli.box.letters = table(string(stimuli.french.letters'),'VariableNames',{'char'});
     stimuli.box.fakeletters = table(string(stimuli.french.fakescript'),'VariableNames',{'char'});
+    stimuli.box.fs = table(string(stimuli.french.nw),'VariableNames',{'string'});
     stimuli.box.rw = table(string(stimuli.french.rw),'VariableNames',{'string'});
     stimuli.box.pw = table(string(stimuli.french.pw),'VariableNames',{'string'});
     stimuli.box.nw = table(string(stimuli.french.nw),'VariableNames',{'string'});
 
 %     stimuli.box.nonwords = table(string(stimuli.french.nonwords),'VariableNames',{'string'});
-    stimuli.box.references = table('Size',[8 5],'VariableTypes',{'double','string','cell','double','double'},...
+    stimuli.box.references = table('Size',[6 5],'VariableTypes',{'double','string','cell','double','double'},...
                                    'VariableNames',{'nbChar','string','coord','length','height'});
+    stimuli.box.refernces(:,4) = [40; 108; 176; 244; 312; 380; 448; 516];
+    stimuli.box.refernces(:,6) = [64; 64; 64; 64; 64; 64; 64; 64];
+
     
     % Get the screen resolution in pixel
     stimuli.box.w_x = stimuli.box.rect(3);  stimuli.box.w_y = stimuli.box.rect(4);
@@ -124,7 +128,7 @@ try
         stimuli.box.rw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
         Screen('Flip', stimuli.box.win);
         % Also get the length of single letter words (a.k.a. letters without spaces)
-        stimuli.box.rw.letterLength(fw) = getWordLength(stimuli.french.rw(fw), stimuli);
+        stimuli.box.rw.letterLength(fw) = getWordLength(stimuli.french.rw(fw), stimuli, 0);
         
         % FRENCH PSEUDO WORDS
         temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.pw(fw)), yPositionIsBaseline);
@@ -132,7 +136,7 @@ try
         stimuli.box.pw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
         Screen('Flip', stimuli.box.win);
         % Also get the length of single letter words (a.k.a. letters without spaces)
-        stimuli.box.pw.letterLength(fw) = getWordLength(stimuli.french.pw(fw), stimuli);
+        stimuli.box.pw.letterLength(fw) = getWordLength(stimuli.french.pw(fw), stimuli, 0);
 
         % FRENCH NON WORDS
         temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.nw(fw)), yPositionIsBaseline);
@@ -140,14 +144,14 @@ try
         stimuli.box.nw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
         Screen('Flip', stimuli.box.win);
         % Also get the length of single letter words (a.k.a. letters without spaces)
-        stimuli.box.nw.letterLength(fw) = getWordLength(stimuli.french.nw(fw), stimuli);
+        stimuli.box.nw.letterLength(fw) = getWordLength(stimuli.french.nw(fw), stimuli, 0);
         
     end
     
     % Get length of braille references
     % Different words spanning lengths from 1 to 8
     ref_word = 10303; % 1 letter to start
-    for n = 1:8
+    for n = 1:6
         % Get positions of entire word
         temp_bounds = TextBounds(stimuli.box.win, double(ref_word), yPositionIsBaseline);
         stimuli.box.references.nbChar(n) = n;
@@ -156,14 +160,21 @@ try
         stimuli.box.references.length(n) = temp_bounds(3) - temp_bounds(1);
         stimuli.box.references.height(n) = temp_bounds(4) - temp_bounds(2);
         Screen('Flip', stimuli.box.win);
-        
+
         % Increase the 'counter' = adds a letter to the reference word
-        ref_word = [ref_word,10303];      
+        ref_word = [ref_word,10303];      %#ok<*AGROW> 
     end
+
+    stimuli.box.references(:,1) = {1;2;3;4;5;6};
+    stimuli.box.references(:,2) = {"⠿";"⠿⠿";"⠿⠿⠿";"⠿⠿⠿⠿";"⠿⠿⠿⠿⠿";"⠿⠿⠿⠿⠿⠿"}; %#ok<*CLARRSTR> 
+    stimuli.box.references(:,3) = {{[9 0 36 42]};{[9 0 81 42]};{[9 0 126 42]};{[9 0 171 42]}; ...
+                                   [9 0 216 42];[9 0 261 42]};
+    stimuli.box.references(:,4) = {40; 108; 176; 244; 312; 380};
+    stimuli.box.references(:,5) = {64; 64; 64; 64; 64; 64};
     
     % FRENCH FAKE SCRIPT
-    stimuli.box.fakefont = 'visbra_fakefont';
-    stimuli.box.fakesize = 100;
+    stimuli.box.fakefont = 'visbra_fakefont_ultimate';
+    stimuli.box.fakesize = 90;
     Screen('TextFont', stimuli.box.win, stimuli.box.fakefont);
     Screen('TextSize', stimuli.box.win, stimuli.box.fakesize);
     
@@ -181,12 +192,15 @@ try
     end
     
     % FS WORDS
-    temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.nw(fw)), yPositionIsBaseline);
-    stimuli.box.fs.coord{fw} = temp_bounds; % coordinates for each letter
-    stimuli.box.fs.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
-    Screen('Flip', stimuli.box.win);
-    % Also get the length of single letter words (a.k.a. letters without spaces)
-    stimuli.box.fs.letterLength(fw) = getWordLength(stimuli.french.nw(fw), stimuli);
+    for fw = 1:length(stimuli.french.nw)
+        temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.nw(fw)), yPositionIsBaseline);
+        stimuli.box.fs.coord{fw} = temp_bounds; % coordinates for each letter
+        stimuli.box.fs.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
+        Screen('Flip', stimuli.box.win);
+
+        % Also get the length of single letter words (a.k.a. letters without spaces)
+        stimuli.box.fs.letterLength(fw) = getWordLength(stimuli.french.nw(fw), stimuli, 1);
+    end
 
     % Maximum is necessary, determines FOV
     stimuli.box.max_rw = max(stimuli.box.rw.length);
@@ -230,16 +244,18 @@ end
 stimuli.box.rw.spaceLength = getSpaceLength(stimuli.box.rw, stimuli.box);
 stimuli.box.pw.spaceLength = getSpaceLength(stimuli.box.pw, stimuli.box);
 stimuli.box.nw.spaceLength = getSpaceLength(stimuli.box.nw, stimuli.box);
-
+stimuli.box.fs.spaceLength = getSpaceLength(stimuli.box.nw, stimuli.box);
 % stimuli.box.nonwords.spaceLength = getSpaceLength(stimuli.box.nonwords, stimuli.box);
 
 %% X. SAVE STIMULI POST SELECTION
 % IMPORTANT: many info about screen are not saved at the moment. Not
 % relevant now, can be added later
 
-clearvars ans fl fw n nDots ref_word screens temp_bounds unicode whichscreen yPositionIsBaseline
+clearvars ans avgNW avgPW avgRW brCoord images mvpa_words fl fw n nDots ref_word 
+clearvars screens temp_bounds unicode whichscreen yPositionIsBaseline nonWords pseudoWords realWords sdNW sdPW sdRW
+clearvars selNW selPW selRW stX stY
 
-% save('word_sota.mat');
+save('word_sota.mat');
 
 % Next, run 'scrambleDots.m'
 

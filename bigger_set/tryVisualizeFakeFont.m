@@ -27,8 +27,8 @@ try
     [this.win, this.rect] = Screen('OpenWindow', whichscreen, this.bg_color);
     
     % FONT AND SIZE ARE REALLY IMPORTANT
-    Screen('TextFont', this.win, 'visbra_fakefont');
-    Screen('TextSize', this.win, this.size+10);
+    Screen('TextFont', this.win, 'visbra_fakefont_ultimate');
+    Screen('TextSize', this.win, 70);
 
     % RUN ONCE: SHOWS IN ORDER THE SAME STIMULUS AS FW, BW, SBW (MORE TO
     % IMPLEMENT)
@@ -43,12 +43,12 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, this.rect); 
         eval(['fs_test.fs' char(num2str(i)) ' = temp_scr;']);    
-        WaitSecs(1);
+        WaitSecs(0.3);
      
     end
 
     % use segoe for control
-    Screen('TextFont', this.win, 'Segoe UI Symbol');
+    Screen('TextFont', this.win, 'Arial');
     Screen('TextSize', this.win, this.size);
 
     for i = 1:length(nonwords)
@@ -57,19 +57,36 @@ try
         Screen('FillRect', this.win, this.bg_color);
         
         DrawFormattedText(this.win, char(thisNW), 'center', 'center', this.txt_color);
+        actualFont = Screen('TextFont', this.win)
         Screen('Flip', this.win);
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, this.rect); 
         eval(['fs_test.nw' char(num2str(i)) ' = temp_scr;']);    
-        WaitSecs(1);
+        WaitSecs(0.3);
+     
+    end
+
+    for i = 1:length(nonwords)
+        thisB = char(brailify(nonwords(i),stimuli));
+        % Blank screen
+        Screen('FillRect', this.win, this.bg_color);
+        
+        DrawFormattedText(this.win, double(thisB), 'center', 'center', this.txt_color);
+        actualFont = Screen('TextFont', this.win)
+        Screen('Flip', this.win);
+        % Screenshot: first all the screen, then cut what we need 
+        % (PTB was not cooperating, that's why the double step)
+        temp_scr = Screen('GetImage', this.win, this.rect); 
+        eval(['fs_test.bn' char(num2str(i)) ' = temp_scr;']);    
+        WaitSecs(0.3);
      
     end
     
     % Buffer screen 
     Screen('FillRect', this.win, this.bg_color);
     Screen('Flip', this.win);
-    WaitSecs(2);
+    WaitSecs(0);
     
     % Show Braille words - later
        
@@ -94,11 +111,4 @@ catch
     
 end
 
-%%
-
-figure;
-imshow(fs_test.fs1);
-
-figure;
-imshow(fs_test.nw1);
 

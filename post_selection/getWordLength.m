@@ -1,4 +1,4 @@
-function out_num = getWordLength(in_str, in_set)
+function out_num = getWordLength(in_str, in_set, changeFont)
 % COMPUTE WORD LENGTH Length in pixels of a given word
 
 % Calculate the length in pixels of a given word, functional to presentation box
@@ -22,6 +22,11 @@ char_array = char_array(2:length(char_array)-1); %removes first and last empty c
 
 % Total length in pixels of the letters
 tot_length = 0;
+
+% with fakescript, refer to the new letters
+if changeFont
+    stimuli.box.letters = stimuli.box.fakeletters;
+end
 
 % for each letter, gets the position (ascii - 96)
 for l = 1:length(char_array)
