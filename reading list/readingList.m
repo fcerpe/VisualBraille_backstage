@@ -63,7 +63,7 @@ infra_sel.cgram_str = type_str;
 infra_sel = movevars(infra_sel, 'cgram_str', 'Before', 'cgram');
 infra_merge = mergevars(infra_sel,[1 3],'NewVariableName','word');
 
-% At the moment, not merged with consisntency info
+% At the moment, not merged with consistency info
 rL_temp = lexLem;
 
 %% Divide by letters number

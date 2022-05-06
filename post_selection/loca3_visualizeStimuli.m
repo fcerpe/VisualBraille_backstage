@@ -80,7 +80,7 @@ try
         eval(['thisWord = stimuli.dots.result.' wordFilename ';']);
         
         for d = 1:length(thisWord.coords)
-            DrawFormattedText(this.win, double(10241), thisWord.coords(1,d), thisWord.coords(2,d), this.txt_color);
+            DrawFormattedText(this.win, double(10241), thisWord.coords(1,d)-204, thisWord.coords(2,d)-49, this.txt_color);
         end
         Screen('Flip', this.win);
                 

@@ -82,7 +82,7 @@ try
     % Important: box size changes based on font style and size, worth
     % saving them
     stimuli.box.font = 'Segoe UI Symbol';
-    stimuli.box.size = 60;
+    stimuli.box.size = 90;
     Screen('TextFont', stimuli.box.win, stimuli.box.font);
     Screen('TextSize', stimuli.box.win, stimuli.box.size);
     
@@ -196,7 +196,7 @@ stimuli.box.words.spaceLength = getSpaceLength(stimuli.box.words, stimuli.box);
 
 clearvars ans fl fw n nDots ref_word screens temp_bounds unicode whichscreen yPositionIsBaseline
 
-save('mvpa_sota1108.mat','mvpa_words','stimuli');
+save('mvpa_sota1115.mat','mvpa_words','stimuli');
 
 % Next, run 'scrambleDots.m'
 
