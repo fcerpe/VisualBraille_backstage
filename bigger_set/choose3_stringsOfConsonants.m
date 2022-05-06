@@ -116,6 +116,21 @@ end
 
 %% pick randomly 20
 % then check that by coloumn, they need to hav the same distribution
+<<<<<<< HEAD
+=======
+
+% delete those that are made of less than 4 elements: max 1 letter repeated
+for i = size(allComb,1):-1:1
+    this = allComb(i,:);
+    if length(unique(this)) < 5
+        allComb(i,:) = [];
+    end
+    i
+end
+
+%%
+
+>>>>>>> master
 stillHaventPicked = true;
 
 while stillHaventPicked 
@@ -139,6 +154,7 @@ while stillHaventPicked
                             sum(thisPick == 9,'all')]
 
         % there should not be more than 1 letter repeated in each word
+<<<<<<< HEAD
         rowDistribution = [unique(thisPick(1,:)) >= 5, unique(thisPick(2,:)) >= 5, unique(thisPick(3,:)) >= 5, ...
                            unique(thisPick(4,:)) >= 5, unique(thisPick(5,:)) >= 5, unique(thisPick(6,:)) >= 5, ...
                            unique(thisPick(7,:)) >= 5, unique(thisPick(8,:)) >= 5, unique(thisPick(9,:)) >= 5, ...
@@ -146,6 +162,15 @@ while stillHaventPicked
                            unique(thisPick(13,:)) >= 5, unique(thisPick(14,:)) >= 5, unique(thisPick(15,:)) >= 5, ...
                            unique(thisPick(16,:)) >= 5, unique(thisPick(17,:)) >= 5, unique(thisPick(18,:)) >= 5, ...
                            unique(thisPick(19,:)) >= 5, unique(thisPick(20,:)) >= 5];
+=======
+        rowDistribution = [length(unique(thisPick(1,:))) >= 5, length(unique(thisPick(2,:))) >= 5, length(unique(thisPick(3,:))) >= 5, ...
+                           length(unique(thisPick(4,:))) >= 5, length(unique(thisPick(5,:))) >= 5, length(unique(thisPick(6,:))) >= 5, ...
+                           length(unique(thisPick(7,:))) >= 5, length(unique(thisPick(8,:))) >= 5, length(unique(thisPick(9,:))) >= 5, ...
+                           length(unique(thisPick(10,:))) >= 5, length(unique(thisPick(11,:))) >= 5, length(unique(thisPick(12,:))) >= 5, ...
+                           length(unique(thisPick(13,:))) >= 5, length(unique(thisPick(14,:))) >= 5, length(unique(thisPick(15,:))) >= 5, ...
+                           length(unique(thisPick(16,:))) >= 5, length(unique(thisPick(17,:))) >= 5, length(unique(thisPick(18,:))) >= 5, ...
+                           length(unique(thisPick(19,:))) >= 5, length(unique(thisPick(20,:))) >= 5];
+>>>>>>> master
 
         % all the letters are represented almost equally, we can exit
         if min(colDistribution >= 12) && all(rowDistribution)
