@@ -14,8 +14,8 @@ nonWords = ["yyqhgw"; "ghkhwz"; "hjjwky"; "kjwqzx"; "jwykzj"; "gxhwxk"; "gkqqzx"
 
 load('stimuliProperties.mat');
 
-pseudoWords(:,2) = brailify(pseudoWords, stimuli);
 realWords(:,2) = brailify(realWords, stimuli);
+pseudoWords(:,2) = brailify(pseudoWords, stimuli);
 nonWords(:,2) = brailify(nonWords, stimuli);
 
 % manually counted
@@ -23,17 +23,16 @@ realWords(:,3) = ["15";"17";"16";"20";"18";"14";"19";"18";"17";"18";"19";"17";"1
 pseudoWords(:,3) = ["16";"16";"19";"19";"14";"19";"16";"19";"17";"18";"18";"19";"18";"23";"18";"18";"16";"22";"18";"19"];
 nonWords(:,3) = ["26";"22";"22";"22";"24";"22";"24";"24";"23";"24";"23";"23";"25";"24";"20";"20";"25";"26";"22";"24"];
 
-selNW = nonWords([2:6,9:12,15:16,19:19],[1:3]);
 selRW = realWords([2:2,4:5,7:8,10:12,16:18,20:20],[1:3]);
 selPW = pseudoWords([2:4,6:6,8:8,10:12,14:14,16:16,18:18,20:20],[1:3]);
+selNW = nonWords([2:6,9:12,15:16,19:19],[1:3]);
 
-
-avgPW = sum(double(selPW(:,3)))/12;
 avgRW = sum(double(selRW(:,3)))/12;
+avgPW = sum(double(selPW(:,3)))/12;
 avgNW = sum(double(selNW(:,3)))/12;
 
-sdPW = std(double(selPW(:,3)));
 sdRW = std(double(selRW(:,3)));
+sdPW = std(double(selPW(:,3)));
 sdNW = std(double(selNW(:,3)));
 
 save('word_analysis.mat');

@@ -2,9 +2,7 @@
 %
 % Part 1 of X
 % From simtuli initial selection, get the words detials 
-% (then: scrambleDots, visualizeStimuli, importImages, scrambleImg)
-
-clear
+% (then: scrambleDots, visualizeStimuli, importImages, scrambleImg
 
 %% 1. FRENCH - BRAILLE MAPPING
 % Create table containing intégral braille conversion of french characters.
@@ -42,9 +40,9 @@ stimuli.braille.summary = table(string(stimuli.french.letters'),string(stimuli.b
 % match letters into one table
 stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.braille.letters'),'variableNames',{'fr','br'});
 
-stimuli.french.rw = realWords(:,1);
-stimuli.french.pw = pseudoWords(:,1);
-stimuli.french.nw = nonWords(:,1);
+stimuli.french.rw = selRW(:,1);
+stimuli.french.pw = selPW(:,1);
+stimuli.french.nw = selNW(:,1);
 
 stimuli.braille.rw = brailify(stimuli.french.rw, stimuli);
 stimuli.braille.pw = brailify(stimuli.french.pw, stimuli);
@@ -123,7 +121,7 @@ try
         stimuli.box.rw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
         Screen('Flip', stimuli.box.win);
         % Also get the length of single letter words (a.k.a. letters without spaces)
-        stimuli.box.rw.letterLength(fw) = getWordLength(stimuli.french.rw(fw), stimuli);
+        stimuli.box.rw.letterLength(fw) = getWordLength(stimuli.french.rw(fw), stimuli, 0);
         
         % FRENCH PSEUDO WORDS
         temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.pw(fw)), yPositionIsBaseline);
@@ -131,7 +129,7 @@ try
         stimuli.box.pw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
         Screen('Flip', stimuli.box.win);
         % Also get the length of single letter words (a.k.a. letters without spaces)
-        stimuli.box.pw.letterLength(fw) = getWordLength(stimuli.french.pw(fw), stimuli);
+        stimuli.box.pw.letterLength(fw) = getWordLength(stimuli.french.pw(fw), stimuli, 0);
 
         % FRENCH NON WORDS
         temp_bounds = TextBounds(stimuli.box.win, char(stimuli.french.nw(fw)), yPositionIsBaseline);
@@ -139,7 +137,7 @@ try
         stimuli.box.nw.length(fw) = temp_bounds(3) - temp_bounds(1); % x-axis dimension
         Screen('Flip', stimuli.box.win);
         % Also get the length of single letter words (a.k.a. letters without spaces)
-        stimuli.box.nw.letterLength(fw) = getWordLength(stimuli.french.nw(fw), stimuli);
+        stimuli.box.nw.letterLength(fw) = getWordLength(stimuli.french.nw(fw), stimuli, 0);
         
     end
     
