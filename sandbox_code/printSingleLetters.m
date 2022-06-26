@@ -28,7 +28,7 @@ try
     
     % FONT AND SIZE ARE REALLY IMPORTANT
     Screen('TextFont', this.win, this.font);
-    Screen('TextSize', this.win, this.size);
+    Screen('TextSize', this.win, this.size*2);
     
     HideCursor;
     
@@ -73,22 +73,22 @@ try
         eval(['imwrite(images.fl.' char(thisFilename) ', ''figs/fr_' char(thisFilename) '.png'');']);
         
         
-        % BRAILLE
-        toPrint = [10303 bl{i} 10303];
-        
-        DrawFormattedText(this.win, double(toPrint), 'center', 'center', this.txt_color);
-        Screen('Flip', this.win);
-        % Screenshot: first all the screen, then cut what we need 
-        % (PTB was not cooperating, that's why the double step)
-        temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
-        eval(['images.bl.' char(thisFilename) ' = temp_scr(501:574, 936:985, :)']);
-        
-        % Length = 40+10; Height = 64+10
-        % half screen: 935:985  503:577
-        
-        WaitSecs(0.5);
-
-        eval(['imwrite(images.bl.' char(thisFilename) ', ''figs/br_' char(thisFilename) '.png'');']);
+%         % BRAILLE
+%         toPrint = [10303 bl{i} 10303];
+%         
+%         DrawFormattedText(this.win, double(toPrint), 'center', 'center', this.txt_color);
+%         Screen('Flip', this.win);
+%         % Screenshot: first all the screen, then cut what we need 
+%         % (PTB was not cooperating, that's why the double step)
+%         temp_scr = Screen('GetImage', this.win, [0, 0, 1920, 1080]); 
+%         eval(['images.bl.' char(thisFilename) ' = temp_scr(501:574, 936:985, :)']);
+%         
+%         % Length = 40+10; Height = 64+10
+%         % half screen: 935:985  503:577
+%         
+%         WaitSecs(0.5);
+% 
+%         eval(['imwrite(images.bl.' char(thisFilename) ', ''figs/br_' char(thisFilename) '.png'');']);
         
     end
     
