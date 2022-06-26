@@ -7,7 +7,7 @@
 
 % IMPORTANT: CHANGE SOURCE FOR DIFFERENT SETS
 clear
-load('word_sota.mat');
+load('word_scrambleDots.mat');
 
 
 %% Print the words
@@ -59,7 +59,8 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1512, 982]); 
-        eval(['images.frw.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);    
+        eval(['images.frw.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);   
+        eval(['imwrite(images.frw.w' char(num2str(i)) ', ''stimuli_imgs/frw_w' char(num2str(i)) '.png'');']);
         WaitSecs(0.3);
            
         % BRW
@@ -70,6 +71,7 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1512, 982]); 
         eval(['images.brw.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :, :);']);
+        eval(['imwrite(images.brw.w' char(num2str(i)) ', ''stimuli_imgs/brw_w' char(num2str(i)) '.png'');']);
         WaitSecs(0.3);
         
         %% PSEUDO WORDS
@@ -83,6 +85,7 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1512, 982]); 
         eval(['images.fpw.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);    
+        eval(['imwrite(images.fpw.w' char(num2str(i)) ', ''stimuli_imgs/fpw_w' char(num2str(i)) '.png'');']);
         WaitSecs(0.3);
            
         % BPW
@@ -93,6 +96,7 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1512, 982]); 
         eval(['images.bpw.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);
+        eval(['imwrite(images.bpw.w' char(num2str(i)) ', ''stimuli_imgs/bpw_w' char(num2str(i)) '.png'');']);
         WaitSecs(0.3);
         
         %% NON WORDS
@@ -105,7 +109,8 @@ try
         % Screenshot: first all the screen, then cut what we need 
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1512, 982]); 
-        eval(['images.fnw.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);    
+        eval(['images.fnw.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);
+        eval(['imwrite(images.fnw.w' char(num2str(i)) ', ''stimuli_imgs/fnw_w' char(num2str(i)) '.png'');']);
         WaitSecs(0.3);
            
         % BRW
@@ -116,6 +121,7 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1512, 982]); 
         eval(['images.bnw.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);
+        eval(['imwrite(images.bnw.w' char(num2str(i)) ', ''stimuli_imgs/bnw_w' char(num2str(i)) '.png'');']);
         WaitSecs(0.3);
         
         %% FAKE SCRIPT 
@@ -131,7 +137,9 @@ try
         % (PTB was not cooperating, that's why the double step)
         temp_scr = Screen('GetImage', this.win, [0, 0, 1512, 982]); 
         eval(['images.bfs.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);
+        eval(['imwrite(images.bfs.w' char(num2str(i)) ', ''stimuli_imgs/bfs_w' char(num2str(i)) '.png'');']);
         WaitSecs(0.3);
+        
         
     end
     
@@ -157,5 +165,5 @@ catch
 end
 
 % FINAL CLEANUP AND SAVE
-save('word_sota.mat','stimuli','images');
+save('word_visualizeStimuli.mat','stimuli','images');
 

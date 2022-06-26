@@ -9,7 +9,7 @@
 % Then, call function to map based on this conversion
 
 % load the word selection
-load('word_analysis.mat');
+load('word_generateStimuli.mat');
 
 % All these arrays are ordered: 1 = a = ⠁ = 10241
 
@@ -40,13 +40,13 @@ stimuli.braille.summary = table(string(stimuli.french.letters'),string(stimuli.b
 % match letters into one table
 stimuli.conversion = table(string(stimuli.french.letters'), string(stimuli.braille.letters'),'variableNames',{'fr','br'});
 
-stimuli.french.rw = selRW(:,1);
-stimuli.french.pw = selPW(:,1);
-stimuli.french.nw = selNW(:,1);
+stimuli.french.rw = realWords(:,1);
+stimuli.french.pw = pseudoWords(:,1);
+stimuli.french.nw = nonWords(:,1);
 
-stimuli.braille.rw = brailify(stimuli.french.rw, stimuli);
-stimuli.braille.pw = brailify(stimuli.french.pw, stimuli);
-stimuli.braille.nw = brailify(stimuli.french.nw, stimuli);
+stimuli.braille.rw = realWords(:,2);
+stimuli.braille.pw = pseudoWords(:,2);
+stimuli.braille.nw = nonWords(:,2);
 
 % Add reference to use later in box calculations
 stimuli.braille.reference_letter = char(10303);
@@ -158,6 +158,7 @@ try
         ref_word = [ref_word,10303];      
     end
     
+% OBSOLETE: FAKE SCRIPT IS EASIER DONE BY HAND ON A PRESENTATION
 %     % FRENCH FAKE SCRIPT
 %     stimuli.box.font = 'Visbra_fakefont';
 %     stimuli.box.size = 90;
@@ -168,13 +169,11 @@ try
 %     for fl = 1:length(stimuli.french.fakescript)    
 %         % Get positions of letter
 %         yPositionIsBaseline = 0; % non negative data without (no idea)
-%         
 %         temp_bounds = TextBounds(stimuli.box.win, stimuli.french.fakescript{fl}, yPositionIsBaseline);
 %         stimuli.box.fakescript.coord{fl} = temp_bounds; % coordinates for each letter
 %         stimuli.box.fakescript.length(fl) = temp_bounds(3) - temp_bounds(1);
 %         stimuli.box.fakescript.height(fl) = temp_bounds(4) - temp_bounds(2); % necessary for true center
 %         Screen('Flip', stimuli.box.win);
-%         
 %     end
 %     
 %     % FS WORDS
@@ -235,7 +234,7 @@ stimuli.box.nw.spaceLength = getSpaceLength(stimuli.box.nw, stimuli.box);
 
 clearvars ans fl fw n nDots ref_word screens temp_bounds unicode whichscreen yPositionIsBaseline
 
-save('word_sota.mat');
+save('word_createSet.mat');
 
 % Next, run 'scrambleDots.m'
 

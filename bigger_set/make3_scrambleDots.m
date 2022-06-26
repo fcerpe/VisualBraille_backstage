@@ -2,7 +2,6 @@
 %
 % Author: Filippo Cerpelloni
 %
-% Part 2 of X 
 % After createSet, start with scrambling the dot condition
 % 
 % Aim: scramble braille words into random dot patterns.
@@ -14,7 +13,7 @@
 clear
 warning('off')
 % Load the list of words to be scrambled
-load('word_sota.mat', 'stimuli');
+load('word_createSet.mat', 'stimuli');
 
 % Scramble is part of stimuli process, temporary saved as sc to avoid
 % writing too many words
@@ -108,7 +107,7 @@ for k = 1:size(sc.nw,1) % for each word to sc
     
     % Rectangle code showing the limits
     baseRect = [0 0 drawableX drawableY];
-    centeredRect = CenterRectOnPointd(baseRect, sc.xCenter, sc.yCenter)
+    centeredRect = CenterRectOnPointd(baseRect, sc.xCenter, sc.yCenter);
 
     % Set up dots loop
     % Array for previously drawn dots, to calculate distances
@@ -158,5 +157,5 @@ end
 stimuli.dots = sc;
 %% Save
 clearvars allDots this_w ans baseRect centeredRect dotCenter dotPositionMatrix drawableX drawableY i k l sc screens temp_bounds temp_w this_x this_y whichscreen
-save('word_sota.mat');
+save('word_scrambleDots.mat');
 

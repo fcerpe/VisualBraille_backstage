@@ -1,0 +1,6 @@
+% MAKE STIMULI - 8
+% Import images of fake script and save .mat to be used in VisualBraille
+
+clear
+
+load('');
