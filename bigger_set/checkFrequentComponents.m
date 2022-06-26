@@ -1,4 +1,4 @@
-function [rep, sel] = checkFrequentComponents(words, let, bi, tri)
+function [selIdx, selection] = checkFrequentComponents(words, let, bi, tri)
 
 % CHECK FREQUENT COMPONENTS
 % get those elements (words or pseudo) that are composed of frequent letters,
@@ -20,41 +20,42 @@ function [rep, sel] = checkFrequentComponents(words, let, bi, tri)
 
 warning('off')
 
-report = table;
-selWords = "";
+report = table('Size',[39070080, 2],'VariableTypes',{'string','string'},'VariableNames',{'word','accepted'});
+selection = "";
+selIdx = [];
 
 % code first, make a function later. Deal with generalized variables in a
 % lazy way
 lex = words;    selLetters = let;   selBigrammes = bi;  selTrigrammes = tri;
 
 % for each word
-for w = 1:size(lex,1)
+parfor w = 1:39070080
 
+    % thisReport = table('Size',[1, 2],'VariableTypes',{'string','string'},'VariableNames',{'word','accepted'});
     % get string array of word
     thisW = split(lex(w),"");
     thisW = thisW([2 3 4 5 6 7]);
     thisW = string(thisW);
 
-    validL = [0 0 0 0 0 0];
+    validL = [1 1 1 1 1 1];
     validB = [0 0 0 0 0 0];
     validT = [0 0 0 0 0 0];
 
     % look at letters
     % each letter must be made a frequent one
-    for l = 1:6
-        thisL = thisW(l);
-        if any(strcmp(thisL, selLetters))
-            validL(l) = 1;
-        else
-            validL(l) = 0;
-        end
-    end
+%     for l = 1:6
+%         thisL = thisW(l);
+%         if any(strcmp(thisL, selLetters))
+%             validL(l) = 1;
+%         else
+%             validL(l) = 0;
+%         end
+%     end
 
     % if letters are not ok, there's no reason to look at bi- or tri-
     if not(all(validL))
-        report.word(w) = lex(w);
-        report.accepted(w) = "no";
-        report.reason(w) = "letters";
+        % thisReport(1,1) = lex(w);
+        % thisReport(1,2) = "no";
     else
         % look at bigrammes
         for b = 1:2:6
@@ -72,9 +73,8 @@ for w = 1:size(lex,1)
         % and exit
         % (if condition is the opposite)
         if not(all(validB))
-            report.word(w) = lex(w);
-            report.accepted(w) = "no";
-            report.reason(w) = "bigrammes";
+            % thisReport(1,1) = lex(w);
+            % thisReport(1,2) = "no";
         else
 
             % look at trigrammes
@@ -94,22 +94,23 @@ for w = 1:size(lex,1)
             % this is the last one, either they're bad (and thus report)
             % or they're good (then report and write them in a new table)
             if not(all(validT))
-                report.word(w) = lex(w);
-                report.accepted(w) = "no";
-                report.reason(w) = "trigrammes";
+                % thisReport(1,1) = lex(w);
+                % thisReport(1,2) = "no";
 
             else % word is ok, save it
-                selWords = vertcat(selWords, lex(w));
-                report.word(w) = lex(w);
-                report.accepted(w) = "yes";
+                selection = vertcat(selection, lex(w));
+                selIdx = vertcat(selIdx, w);
+                % thisReport(1,1) = lex(w);
+                % thisReport(1,2) = "yes";
             end
 
         end
     end
+
+%     report(w,:) = {% thisReport{1,1}, % thisReport{1,2}};
 end
 
-rep = report;
-sel = selWords(2:end);
+selection = selection(2:end);
 
 end
 
