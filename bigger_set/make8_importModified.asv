@@ -6,9 +6,18 @@ clear
 % latest step in the non-automatic pipeline
 load('word_visualizeStimuli.mat');
 
-% get images from the ffs_imports folder
+% get images from the stimuli_imgs folder
 % those images have to be put manually, at least the first time
+files = dir('stimuli_imgs');
 
+for f = 3:size(files,1)
+    name = files(f).name;
+    condition = name()
+
+    % read img and save it
+    eval(['images.' ]);
+
+end
 % save them into the images struct
 
 % save everything both here and in the VisualBraille folder automatically
