@@ -138,7 +138,7 @@ try
         temp_scr = Screen('GetImage', this.win, [0, 0, 1512, 982]); 
         eval(['images.bfs.w' char(num2str(i)) ' = temp_scr(392:591, 507:1006, :);']);
         eval(['imwrite(images.bfs.w' char(num2str(i)) ', ''stimuli_imgs/bfs_w' char(num2str(i)) '.png'');']);
-        WaitSecs(0.3);
+        WaitSecs(5);
         
         
     end
