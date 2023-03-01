@@ -138,7 +138,6 @@ clearvars charB i j freqLetters freqBigrammes freqTrigrammes thisB validB thisT 
 % we now have 6L words, frequent letters, bi-, tri-
 % how many of those words have all those features? 
 
-% lontano dagli occhi, lontano dal cuore
 % Give it the words to analyse, the frequent components that must be
 % present and you'll get the selection of words that fit the criteria and a
 % small report on all the words analysed
