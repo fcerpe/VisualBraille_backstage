@@ -19,7 +19,7 @@ Screen('Preference', 'SkipSyncTests', 1);
 try
     % Routine stuff: new fullscreen window
     screens = Screen('Screens');
-    [scr.win, scr.rect] = Screen('OpenWindow', 0, [0 0 0]);
+    [scr.win, scr.rect] = Screen('OpenWindow', 0, [255 255 255]);
     Screen('BlendFunction', scr.win, 'GL_SRC_ALPHA', 'GL_ONE_MINUS_SRC_ALPHA');
 
     % Hard-code the positions of the letters on the screen
