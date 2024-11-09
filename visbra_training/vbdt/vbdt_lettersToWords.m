@@ -27,6 +27,7 @@ try
     % letter size: width 50, height 74
     % Using macbook (width 1512, height 982), center is (756, 491).
     % TEMPORARY: a bit of math to get the actual positions
+    positions_3_letters = [661 731 801; 454 454 454; 711 781 851; 528 528 528];
     positions_4_letters = [626 696 766 836; 454 454 454 454; 676 746 816 886; 528 528 528 528];
     positions_5_letters = [591 661 731 801 871; 454 454 454 454 454; 641 711 781 851 921; 528 528 528 528 528];
     positions_6_letters = [556 626 696 766 836 906; 454 454 454 454 454 454; 606 676 746 816 886 956; 528 528 528 528 528 528];
