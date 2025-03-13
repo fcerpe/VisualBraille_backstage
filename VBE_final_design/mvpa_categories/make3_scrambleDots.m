@@ -92,7 +92,7 @@ sc.d = sc.dot.diameter;
 sc.r = round(sc.d/2);
 
 % Minimum distance = usual distance from the center = reference of ⠿ on
-% the x axis. SUBJECT TO FONT SIZE
+% the x axis (subject to font size)
 % Distance from the centers of the dots = reference of 1 - diameter
 % (the two radiuses of the dots)
 sc.minDist = stimuli.box.references.length(1) - 20;
@@ -135,8 +135,8 @@ for k = 1:size(sc.nw,1) % for each word to sc
     dotPositionMatrix = [reshape(allDots(:,1), 1, this_w.nDots); reshape(allDots(:,2), 1, this_w.nDots)];
     dotCenter = [centeredRect(1) centeredRect(2)];
     
-    % Change of plans, dots are drawn poorly. Better to use 'a'. This means
-    % having already centered coordinates
+    % Dots are drawn poorly, we are technically printing the character 'a'
+    % Some traslation of the coordinates is then necessary
     %  New coord =              original coord      +  center of the screen  +  letter shift
     dotPositionMatrix(1,:) = dotPositionMatrix(1,:) + (1920/2 - drawableX/2) - sc.d -sc.r;
     dotPositionMatrix(2,:) = dotPositionMatrix(2,:) + (1080/2 - drawableY/2) + (this_w.height - sc.r) - sc.r/2;

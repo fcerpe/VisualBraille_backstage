@@ -25,6 +25,10 @@ switch font
     case 4 %             A   B   C   D   E  F   G   H  I  J   K  L   M   N   O   P   Q  R   S  T   U   V   W   X   Y   Z
         lettersWidth = [135,135,115,135,130,87,135,118,58,58,123,52,174,118,140,135,135,96,102,81,118,136,198,150,146,144];
 
+    % Arial - fake script
+    case 7 %            a  B   C   D  e  F   G   H  i  J  K   L   M   N  o  P   Q   R  S   T  u  V   W   X   Y   Z
+        lettersWidth = [0,132,163,120,0,110,164,130,0,68,157,107,136,136,0,139,139,85,115,101,0,143,149,160,159,127];
+
 end
 lettersHeight = 250;
 

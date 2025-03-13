@@ -1,10 +1,9 @@
 function out = checkProximity(in_coord, in_array, min)
 
-% CHECK PROXIMITY CHecks if the coordinates are too close to existing ones
-%   Function made for the drawing of dots in the scrambled braille word
-%   condition . The question is:
-%
-%                       Are the coordinates fine?
+% CHECK PROXIMITY 
+% Checks if the coordinates are too close to existing ones
+% Function made for the drawing of dots in the scrambled braille word
+% condition. 
 %
 %   - output: boolean, the coordinates are apart-enough to allow drawing a
 %             dot in that position
@@ -28,7 +27,6 @@ if size(in_array,1) > 0 % if array is empty, first dot is always ok
         i = i+1;
     end 
 end
-
 
 out = ~tooClose;
 
